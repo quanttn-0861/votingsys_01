@@ -29,6 +29,7 @@
   "dependencies": {
     "history": "^4.9.0",
     "react-autobind": "^1.0.6",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "validator": "^10.11.0"
   }
 }

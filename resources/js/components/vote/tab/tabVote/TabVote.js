@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import autoBind from "react-autobind";
-import TabVoteChildren from './tabVoteChildren/TabVoteChildren'
 import FormInputInfo from './FormInputInfo'
+import axios from 'axios'
+import history from '../../../history'
 
 class TabVote extends Component {
     constructor(props) {
@@ -11,6 +12,24 @@ class TabVote extends Component {
     }
     handleClickTabChildren1() {
         this.props.handleClickTabChildren1()
+    }
+    handleSubmit(name, email, option) {
+        let url = window.Laravel.baseUrl + '/vote'
+        const data = {
+            name: name,
+            email: email,
+            option: option
+        }
+        axios.post(url, data)
+            .then(response => {
+                console.log(response)
+                alert('Vote Success!')
+                // history.push('/link-poll')
+            })
+            .catch(function (error) {
+                console.log(error.response)
+            })
+
     }
     render() {
         return (
@@ -32,12 +51,13 @@ class TabVote extends Component {
                             Thời gian đóng bầu chọn: <i>21-03-2019 14:28</i>
                         </span>
                     </label>
-                    <TabVoteChildren
+
+                    <FormInputInfo
+                        handleSubmit={this.handleSubmit}
                         tabChildren={this.props.tabChildren}
                         handleClickTabChildren2={this.props.handleClickTabChildren2}
                         handleClickTabChildren1={this.props.handleClickTabChildren1}
                     />
-                    <FormInputInfo />
                 </div>
             </React.Fragment>
         );
