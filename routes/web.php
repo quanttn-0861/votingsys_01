@@ -19,9 +19,9 @@ Route::namespace('Admin')->group(function(){
 
 Route::resource('poll', 'PollController');
 
-Route::view('/{any}', 'home')
-    ->where('any', '.*');
-
-Route::namespace('User')->group(function(){
+Route::namespace('User')->prefix('api')->group(function(){
     Route::resource('vote', 'VoteController');
 });
+
+Route::view('/{any}', 'home')
+    ->where('any', '.*');

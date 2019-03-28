@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ParticipantVote;
 use App\Models\Participant;
+use App\Models\Poll;
+use App\Models\Option;
+use Illuminate\Support\Facades\DB;
 
 class VoteController extends Controller
 {
@@ -16,7 +19,21 @@ class VoteController extends Controller
      */
     public function index()
     {
-        //
+        $pollId = 5; //thay đổi id khi get link poll
+        $pollInfo = Poll::where('id', $pollId)->first();
+
+        $participantVote = ParticipantVote::with([
+            'participant',
+            'option',
+        ])->get();
+
+        $pollOption = Option::where('poll_id', $pollId)->get();
+        return response()->json([
+                'pollInfo' => $pollInfo,
+                'pollOption' => $pollOption,
+                'participantVote' => $participantVote,
+                'pollId' => $pollId,
+            ]);
     }
 
     /**
@@ -41,14 +58,17 @@ class VoteController extends Controller
             $inputPaticipant = $request->only('name', 'email');
             $inputPaticipant['user_id'] = 1; //thay đổi khi login
 
-            Participant::create($inputPaticipant);
+            DB::beginTransaction();
+            $participantId = Participant::insertGetId($inputPaticipant);
 
-            $participantId = Participant::max('id');
             $inputPaticipantVote['option_id'] = $request->option;
             $inputPaticipantVote['participant_id'] = $participantId;
 
             ParticipantVote::create($inputPaticipantVote);
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
+            
             return response()
                 ->json(['message' => 'Failed: Add failed']);
         }
