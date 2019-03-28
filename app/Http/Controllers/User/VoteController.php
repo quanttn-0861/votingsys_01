@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ParticipantVote;
+use App\Models\Participant;
 
 class VoteController extends Controller
 {
@@ -35,7 +37,24 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $inputPaticipant = $request->only('name', 'email');
+            $inputPaticipant['user_id'] = 1; //thay đổi khi login
+
+            Participant::create($inputPaticipant);
+
+            $participantId = Participant::max('id');
+            $inputPaticipantVote['option_id'] = $request->option;
+            $inputPaticipantVote['participant_id'] = $participantId;
+
+            ParticipantVote::create($inputPaticipantVote);
+        } catch (Exception $e) {
+            return response()
+                ->json(['message' => 'Failed: Add failed']);
+        }
+        
+        return response()
+            ->json(['message' => 'Success: Add successfully']);
     }
 
     /**

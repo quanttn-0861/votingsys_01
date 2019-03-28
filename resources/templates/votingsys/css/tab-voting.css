@@ -12,6 +12,7 @@
     float: left;
     width: 33%;
     border-bottom: 1px solid #abc;
+    cursor: pointer;
 }
 .tabs-nav li:first-child a {
     border-right: 0;
@@ -356,4 +357,8 @@
 .switch-tab-button-active {
     color: #fff !important;
     background-color: #5bc0de;
+}
+.validation {
+    display: block; 
+    color: #DF0101;
 }
