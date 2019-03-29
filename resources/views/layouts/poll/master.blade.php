@@ -32,6 +32,7 @@
     {{ Html::script(asset('/templates/votingsys/js/tagify.js')) }}
     {{ Html::style(asset('/templates/votingsys/css/bootstrap-toggle.min.css')) }}
     {{ Html::script(asset('/templates/votingsys/js/bootstrap-toggle.min.js')) }}
+    {{ Html::style(asset('/templates/votingsys/css/option.css')) }}
     <script type="text/javascript">
         window.Laravel = {!! json_encode([
             'baseUrl' => url('/'),
@@ -45,7 +46,9 @@
         @yield('content')
     @include('layouts.poll.footer')
 </body>
-    {{ Html::script(asset('https://maps.googleapis.com/maps/api/js?key=YOUR-KEY&libraries=places&callback=initAutocomplete')) }}
+    {{ Html::script(asset('/templates/votingsys/js/superfish.min.js')) }}
+    {{ Html::script(asset('/templates/votingsys/js/jquery.magnific-popup.min.js')) }}
+    {{ Html::script(asset('/templates/votingsys/js/jquery-ui.js')) }}
     {{ Html::script(asset('/templates/votingsys/js/superfish.min.js')) }}
     {{ Html::script(asset('/templates/votingsys/js/jquery.magnific-popup.min.js')) }}
     {{ Html::script(asset('/templates/votingsys/js/jquery-ui.js')) }}
@@ -55,7 +58,8 @@
     {{ Html::script(asset('/templates/votingsys/js/scrollpage.js')) }}
     {{ Html::style(asset('/templates/votingsys/css/prism.min.css')) }}
     {{ Html::script(asset('/templates/votingsys/js/prism.min.js')) }}
-    <script src="{{asset('/templates/votingsys/js/myScript.js')}}" ></script>
-    <script src="{{asset('/templates/votingsys/js/taginput.js')}}" ></script>
-    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    {{ Html::script(asset('/templates/votingsys/js/myScript.js')) }}
+    {{ Html::script(asset('/templates/votingsys/js/taginput.js')) }}
+    {{ Html::script(asset('/templates/votingsys/js/buttonSpin.js')) }}
+    {{ Html::script(asset('/js/app.js')) }}
 </html>
