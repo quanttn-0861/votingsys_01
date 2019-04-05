@@ -27,6 +27,8 @@ export default class CreatePoll extends Component {
             options: [],
             fieldset: 1,
             errors: { error: "error" },
+            addSetting: "",
+            editSetting: "",
         };
         const rules = [
             {
@@ -83,6 +85,13 @@ export default class CreatePoll extends Component {
         })
     }
 
+    getSettingForm = (addSettingOne, editSettingOne) => {
+        this.setState({
+            addSetting: addSettingOne,
+            editSetting: editSettingOne,
+        })
+    }
+
     addOption = () => {
         this.state.options.push(this.state.nameOption)
         this.setState({
@@ -122,6 +131,7 @@ export default class CreatePoll extends Component {
             date_close: this.state.date_close,
             location: this.state.location,
             options: this.state.options,
+            addSetting: this.state.addSetting,
         }
         axios.post(url, data)
             .then(response => {
@@ -141,7 +151,7 @@ export default class CreatePoll extends Component {
         })
         const getInformationForm = this.getStateFromInformationPoll
         const informationForm = <InformationPoll getStateFromInformationPoll={getInformationForm} setFieldset2={this.setFieldset2} />
-        const settingPoll = <SettingPoll setFieldset2={this.setFieldset2} setFieldset4={this.setFieldset4} />
+        const settingPoll = <SettingPoll getSettingForm={this.getSettingForm} setFieldset2={this.setFieldset2} setFieldset4={this.setFieldset4} />
         const mailParticipant = <MailParticipant handleSubmit={this.handleSubmit} setFieldset3={this.setFieldset3}/>
         return (
             <React.Fragment>

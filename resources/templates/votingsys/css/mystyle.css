@@ -487,9 +487,21 @@
     width: 50%;
 }
 
-.checkbox {
+.style-checkbox {
     /*float: left;*/
     text-align: left;
+}
+
+.style-button-toggle {
+    width: 15%;
+    float: left;
+    padding-bottom: 2%;
+}
+
+.style-label-setting {
+    padding-top: 2%;
+    padding-left: 2%;
+    float: left;
 }
 
 .panel-checkbox {
