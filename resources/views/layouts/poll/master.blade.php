@@ -54,7 +54,6 @@
     {{ Html::script(asset('/templates/votingsys/js/jquery-ui.js')) }}
     {{ Html::script(asset('/templates/votingsys/js/owl.carousel.min.js')) }}
     {{ Html::script(asset('/templates/votingsys/js/main.js')) }}
-    {{ Html::script(asset('/templates/votingsys/js/progressForm.js')) }}
     {{ Html::script(asset('/templates/votingsys/js/scrollpage.js')) }}
     {{ Html::style(asset('/templates/votingsys/css/prism.min.css')) }}
     {{ Html::script(asset('/templates/votingsys/js/prism.min.js')) }}

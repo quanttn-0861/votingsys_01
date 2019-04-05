@@ -93,8 +93,8 @@ export default class SettingPoll extends Component {
                     </div>
                 </div>
                 <div className="clear"></div>
-                <button name="previous" className="previous action-button" type="button">Previous</button>
-                <button name="next" className="next action-button" type="button">Next</button>
+                <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.props.setFieldset2} />
+                <input type="button" name="next" className="next action-button" value="Next" onClick={this.props.setFieldset4} />
             </React.Fragment>
         );
     }
