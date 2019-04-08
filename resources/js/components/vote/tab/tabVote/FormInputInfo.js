@@ -15,6 +15,7 @@ class FormInputInfo extends Component {
             option: '',
             errors: {},
             count: 0,
+
         };
         const rules = [
             {
@@ -38,6 +39,7 @@ class FormInputInfo extends Component {
         ];
         this.validator = new Validator(rules);
     }
+
     handleInputChange(e) {
         const value = e.target.value;
         const name = e.target.name;
@@ -76,6 +78,7 @@ class FormInputInfo extends Component {
         }
         this.getMessagErrorsValidate();
     }
+
     render() {
         const { errors } = this.state;
         const option = this.state.option;

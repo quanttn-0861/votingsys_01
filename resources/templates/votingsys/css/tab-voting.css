@@ -8,7 +8,7 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-    margin-top: 2%; 
+    margin-top: 2%;
 }
 
 .tabs-nav li {
@@ -438,6 +438,74 @@
 .radio.radio-list {
     margin: 0;
 }
+
 .table-optionName {
     text-align: center;
+}
+
+.table-result-table-head th {
+    text-align: center;
+}
+
+.chart {
+    padding-top: 5em;
+    margin: 0 20%;
+}
+
+/* ReactCSSTransitionGroup */
+
+.example-enter {
+    opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+    opacity: 1;
+}
+
+.example-leave.example-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+
+.example-appear {
+    opacity: 0.01;
+}
+
+.example-appear.example-appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+}
+
+/* table div */
+
+.cell-table {
+    width: 25%;
+    float: left;
+    height: 100%;
+}
+
+.table-result {
+    margin-top: 1em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.cell-table-big {
+    height: 3em;
+    line-height: 3em;
+}
+
+.background-gray {
+    background-color: #F2F2F2;
+}
+
+.table-result-head {
+    background-color: #5bc0de;
+    height: 3em;
+    color: #fff;
+    line-height: 3em;
 }
