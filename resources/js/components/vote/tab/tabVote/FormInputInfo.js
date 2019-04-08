@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import autoBind from "react-autobind";
 import Validator from '../../../utils/validator'
+import RowVote from './RowVote'
+import RadioOption2 from './formInputChildren/RadioOption2'
+import RadioOption1 from './formInputChildren/RadioOption1'
 
 class FormInputInfo extends Component {
     constructor(props) {
@@ -11,6 +14,7 @@ class FormInputInfo extends Component {
             email: '',
             option: '',
             errors: {},
+            count: 0,
         };
         const rules = [
             {
@@ -34,10 +38,15 @@ class FormInputInfo extends Component {
         ];
         this.validator = new Validator(rules);
     }
-    handleChangedName(e) {
+    handleInputChange(e) {
+        const value = e.target.value;
+        const name = e.target.name;
+        const email = e.target.email;
+
         this.setState({
-            name: e.target.value
-        })
+            [name]: value,
+            [email]: value,
+        });
         this.getMessagErrorsValidate();
     }
     handleChangedEmail(e) {
@@ -69,6 +78,33 @@ class FormInputInfo extends Component {
     }
     render() {
         const { errors } = this.state;
+        const option = this.state.option;
+        const pollId = this.props.pollId;
+        const pollOption = this.props.pollOption;
+        const participantVote = this.props.participantVote;
+        const handleChangedOption = this.handleChangedOption;
+        const nameOption = this.props.pollOption.map(function (option) {
+            return <React.Fragment key={option.id}>
+                <th className="table-optionName">{option.name}</th>
+            </React.Fragment>
+        });
+        const rowVote = this.props.participantVote.map(function (participantVote) {
+            if (participantVote.option.poll_id === pollId) {
+                return <RowVote key={participantVote.id} participantVote={participantVote} pollOption={pollOption} />
+            }
+        });
+        const countByOption = this.props.pollOption.map(function (option) {
+            const countByOption = participantVote.filter((countVote) => countVote.option_id === option.id).length;
+            return <React.Fragment key={option.id}><th className="table-result">{countByOption}</th></React.Fragment>
+        });
+        const radioOption2 = this.props.pollOption.map(function (pollOption) {
+            return <RadioOption2 key={pollOption.id} pollOption={pollOption} option={option} handleChangedOption={handleChangedOption} />
+        });
+        const radioOption1 = this.props.pollOption.map(function (pollOption) {
+            return <RadioOption1 key={pollOption.id} pollOption={pollOption} option={option} handleChangedOption={handleChangedOption} />
+        })
+        const countParticipantVote = this.props.participantVote.filter((countVote) => countVote.option.poll_id === this.props.pollId).length;
+
         return (
             <React.Fragment>
                 <div className="switch-tab">
@@ -81,25 +117,34 @@ class FormInputInfo extends Component {
                 </div>
                 <div className="tab-content">
                     <div className={this.props.tabChildren == 1 ? "tab-horizon active-block" : "tab-horizon tab-none"}>
-                        <div>
-                            <label className="radio">
-                                <input type="radio" name="answer" value="1" onChange={this.handleChangedOption} />
-                                <span className="radio__circle"></span>&nbsp;<p className="radio__text">Có</p>
-                                <img className="radio-img" src="/templates/votingsys/img/user/user-default.png" />
-                                <img className="radio-img" src="/templates/votingsys/img/user/user-default.png" />
-                            </label>
-                        </div>
-                        <div>
-                            <label className="radio">
-                                <input type="radio" name="answer" value="2" onChange={this.handleChangedOption} />
-                                <span className="radio__circle"></span>&nbsp;<p className="radio__text">Không</p>
-                            </label>
-                        </div>
+                        {radioOption1}
                     </div>
                     <div className={this.props.tabChildren == 2 ? "tab-time active-block" : "tab-time tab-none"}>
-                        tab time here
+                        <table className="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr className="table-head">
+                                    <th colSpan="3"> {countParticipantVote} Người bầu chọn</th>
+                                    {countByOption}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className="table-head">
+                                    <th className="table-option"></th>
+                                    <td className="table-name bold">Tên</td>
+                                    <td className="table-name bold">Email</td>
+                                    {nameOption}
+                                </tr>
+                                {rowVote}
+                                <tr>
+                                    <th className="table-option">
+                                    </th>
+                                    <td></td>
+                                    <td></td>
+                                    {radioOption2}
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
                 <div className="info-submit">
                     <div className="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-xs-name-vote name-vote-mobile">
@@ -111,33 +156,30 @@ class FormInputInfo extends Component {
                             <input
                                 className="form-control nameVote"
                                 placeholder="Nhập tên của bạn..."
-                                name="nameVote"
+                                name="name"
                                 type="text"
                                 value={this.state.name}
-                                onChange={this.handleChangedName}
+                                onChange={this.handleInputChange}
 
                             />
                         </div>
                         {errors.name && <div className="validation" ><i className="fa fa-exclamation-triangle"></i>{errors.name}</div>}
-
                     </div>
                     <div className="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-xs-email-vote email-vote-mobile">
                         <div className="input-group required">
                             <span className="input-group-addon">
                                 <i className="glyphicon glyphicon-envelope" aria-hidden="true"></i>
                             </span>
-
                             <input
                                 className="form-control emailVote"
                                 placeholder="Nhập địa chỉ email của bạn..."
-                                name="emailVote"
+                                name="email"
                                 type="email"
                                 value={this.state.email}
-                                onChange={this.handleChangedEmail}
+                                onChange={this.handleInputChange}
                             />
                         </div>
                         {errors.email && <div className="validation" ><i className="fa fa-exclamation-triangle"></i>{errors.email}</div>}
-
                     </div>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-btn-xs-vote btn-vote-mobile">
                         <span className="input-group-btn js-data-validate">
