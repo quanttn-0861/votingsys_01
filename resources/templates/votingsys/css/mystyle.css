@@ -429,16 +429,10 @@
 
 .setting div input {
     margin-bottom: 0 !important;
-    width: 85% !important;
 }
 
 .input-group.date {
     display: inline-flex;
-}
-
-.setting div span {
-    width: 5% !important;
-    text-align: left;
 }
 
 .setting div button {
