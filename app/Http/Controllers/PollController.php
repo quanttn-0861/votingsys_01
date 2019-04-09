@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Poll;
 use App\Models\Option;
+use App\Models\Setting;
 
 class PollController extends Controller
 {
@@ -53,6 +54,17 @@ class PollController extends Controller
                 $option->poll_id = $pollId;
                 $option->save();
             }
+
+            $addSetting = $request->addSetting;
+            $inputAddSetting['poll_id'] = $pollId;
+            if ($addSetting == 'is_wsm') {
+                $inputAddSetting['type'] = config('setting.setting_poll.is_wsm');
+                Setting::create($inputAddSetting);
+            } elseif ($addSetting == 'required_name') {
+                $inputAddSetting['type'] = config('setting.setting_poll.required_name');
+                Setting::create($inputAddSetting);
+            }
+
             DB::commit();
 
             return response()

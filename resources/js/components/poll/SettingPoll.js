@@ -3,75 +3,123 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { handleInputChange } from '../utils/InputHandler';
+import { handleOptionChange } from '../utils/HandleOptionChange';
 
 export default class SettingPoll extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            addSetting: "no_addSetting",
+            editSetting: "edit1",
+        }
+    }
+
+    handleSettingForm = () => {
+        this.props.getSettingForm(this.state.addSetting, this.state.editSetting);
+        this.props.setFieldset4();
+    }
+
+    handleClickAddSetting = () => {
+        if (this.state.addSetting === "no_addSetting") {
+            this.setState({
+                addSetting: "is_wsm"
+            })
+        } else {
+            this.setState({
+                addSetting: "no_addSetting"
+            })
+        }
+        $("#panel-checkbox1").slideToggle("normal");
+    }
+
     render() {
+        console.log("Set state change:", this.state.addSetting);    
+
         return (
             <React.Fragment>
                 <h2 className="fs-title">Cài đặt</h2>
                 <div className="switch-button">
-                    <div className="checkbox" id="flip-checkbox1">
-                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
-                        <label> Cho phép người tham gia thêm tùy chọn mới </label>
+                    <div className="style-checkbox style-button-toggle" onClick={this.handleClickAddSetting}>
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.addSetting === "no_addSetting" ? "" : "true"} />
                     </div>
+                    <label className="style-label-setting"> Cho phép người tham gia thêm tùy chọn mới </label>
                     <div className="panel-checkbox" id="panel-checkbox1">
                         <div className="form-check">
-                            <input className="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="option1" defaultChecked />
+                            <input
+                                type="radio"
+                                name="addSetting"
+                                value="is_wsm"
+                                defaultChecked={this.state.addSetting === "is_wsm" ? "" : "true"}
+                                onChange={handleOptionChange.bind(this)}
+                                className="form-check-input"
+                            />
                             <label className="form-check-label">
                                 Yêu cầu phải đăng nhập tài khoản wsm
                             </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="option1" defaultChecked />
-                            <label className="form-check-label">
-                                Nhập tên
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" defaultChecked />
-                            <label className="form-check-label">
-                                Nhập email
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" defaultChecked />
+                            <input
+                                type="radio"
+                                name="addSetting"
+                                value="required_name"
+                                defaultChecked={this.state.addSetting === "required_name"}
+                                onChange={handleOptionChange.bind(this)}
+                                className="form-check-input"
+                            />
                             <label className="form-check-label">
                                 Nhập tên và email
-                          </label>
+                            </label>
                         </div>
                     </div>
 
                     <div className="clear"></div>
 
-                    <div className="checkbox" id="flip-checkbox2">
+                    <div className="style-checkbox style-button-toggle" id="flip-checkbox2">
                         <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
-                        <label> Cho phép chỉnh sửa tùy chọn </label>
                     </div>
-                    <div className="clear"></div>
+                    <label className="style-label-setting"> Cho phép chỉnh sửa tùy chọn </label>
                     <div className="panel-checkbox" id="panel-checkbox2">
                         <div className="form-check">
-                            <input className="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios2" defaultChecked />
+                            <input
+                                type="radio"
+                                name="editSetting"
+                                value="edit1"
+                                checked={this.state.editSetting === "edit1"}
+                                onChange={handleOptionChange.bind(this)}
+                                className="form-check-input"
+                            />
                             <label className="form-check-label">
                                 Ân tất cả thông bầu chọn
                             </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios2" defaultChecked />
+                            <input
+                                type="radio"
+                                name="editSetting"
+                                value="edit2"
+                                checked={this.state.editSetting === "edit2"}
+                                onChange={handleOptionChange.bind(this)}
+                                className="form-check-input"
+                            />
                             <label className="form-check-label">
                                 Chỉ hiển thị số lượng người bầu chọn
                           </label>
                         </div>
                     </div>
                     <div className="clear"></div>
-                    <div className="checkbox">
+
+                    <div className="style-checkbox style-button-toggle">
                         <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
-                        <label> Vô hiệu hóa bầu chọn </label>
                     </div>
+                    <label className="style-label-setting"> Vô hiệu hóa bầu chọn </label>
+
                     <div className="clear"></div>
-                    <div className="checkbox" id="flip-checkbox3">
+
+                    <div className="style-checkbox style-button-toggle" id="flip-checkbox3">
                         <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
-                        <label> Đặt số lượng bầu chọn tối đa </label>
                     </div>
+                    <label className="style-label-setting"> Đặt số lượng bầu chọn tối đa </label>
                     <div className="panel-checkbox" id="panel-checkbox3">
                         <div className="input link-edit">
                             <span className="input-group-text"><i className="fa fa-list-ol" aria-hidden="true"></i></span>
@@ -79,11 +127,13 @@ export default class SettingPoll extends Component {
                                 aria-describedby="basic-addon1" />
                         </div>
                     </div>
+
                     <div className="clear"></div>
-                    <div className="checkbox" id="flip-checkbox4">
+                    
+                    <div className="style-checkbox style-button-toggle" id="flip-checkbox4">
                         <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
-                        <label> Đặt mật khẩu </label>
                     </div>
+                    <label className="style-label-setting"> Đặt mật khẩu </label>
                     <div className="panel-checkbox" id="panel-checkbox4">
                         <div className="input link-edit link-edit2">
                             <span className="input-group-text"><i className="fa fa-key" aria-hidden="true"></i></span>
@@ -94,7 +144,7 @@ export default class SettingPoll extends Component {
                 </div>
                 <div className="clear"></div>
                 <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.props.setFieldset2} />
-                <input type="button" name="next" className="next action-button" value="Next" onClick={this.props.setFieldset4} />
+                <input type="button" name="next" className="next action-button" value="Next" onClick={this.handleSettingForm} />
             </React.Fragment>
         );
     }

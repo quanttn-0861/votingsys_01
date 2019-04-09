@@ -8,9 +8,6 @@
 
 // slidetoggle
 $(document).ready(function () {
-    $("#flip-checkbox1").click(function () {
-        $("#panel-checkbox1").slideToggle("normal");
-    });
     $("#flip-checkbox2").click(function () {
         $("#panel-checkbox2").slideToggle("normal");
     });
@@ -20,14 +17,13 @@ $(document).ready(function () {
     $("#flip-checkbox4").click(function () {
         $("#panel-checkbox4").slideToggle("normal");
     });
-});
-$(".toggle-password").click(function () {
-
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    var input = $($(this).attr("toggle"));
-    if (input.attr("type") == "password") {
-        input.attr("type", "text");
-    } else {
-        input.attr("type", "password");
-    }
+    $(".toggle-password").click(function () {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
 });
