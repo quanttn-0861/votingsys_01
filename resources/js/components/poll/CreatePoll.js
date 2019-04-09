@@ -7,6 +7,9 @@ import InformationPoll from './InformationPoll';
 import SettingPoll from './SettingPoll';
 import MailParticipant from './MailParticipant';
 import { handleInputChange } from '../utils/InputHandler';
+import { withFormik } from 'formik';
+import Validator from '../utils/validator'
+import * as Yup from 'yup'
 
 export default class CreatePoll extends Component {
     constructor(props) {
@@ -22,7 +25,50 @@ export default class CreatePoll extends Component {
             location: '',
             nameOption: '',
             options: [],
-        }
+            fieldset: 1,
+            errors: { error: "error" },
+        };
+        const rules = [
+            {
+                field: 'nameOption',
+                method: 'isEmpty',
+                validWhen: false,
+                message: 'Vui lòng nhập đáp án bầu chọn trong poll này',
+            },
+        ];
+        this.validator = new Validator(rules);
+    }
+
+    setFieldset1 = () => {
+        this.setState({
+            fieldset: 1
+        })
+        document.getElementById("line-option").classList.remove("line");
+        document.getElementById("line-option").classList.add("line-deactive");
+    }
+
+    setFieldset2 = () => {
+        this.setState({
+            fieldset: 2
+        })
+        document.getElementById("progress-option").classList.add("active")
+        document.getElementById("line-option").classList.add("line");
+    }
+
+    setFieldset3 = () => {
+        this.setState({
+            fieldset: 3
+        })
+        document.getElementById("progress-setting").classList.add("active")
+        document.getElementById("line-setting").classList.add("line");
+    }
+
+    setFieldset4 = () => {
+        this.setState({
+            fieldset: 4
+        })
+        document.getElementById("progress-to-mail").classList.add("active")
+        document.getElementById("line-to-mail").classList.add("line");
     }
 
     getStateFromInformationPoll = (name, email, title, multiple, description, date_close, location) => {
@@ -44,18 +90,23 @@ export default class CreatePoll extends Component {
         })
     }
 
-    handleChangeNameOption = (e) => {
-        this.setState({
-            nameOption: e.target.value,
-        })
-    }
-
     deleteOption = (name) => {
         this.setState({
             options: this.state.options.filter(function (option) {
                 return option !== name
             })
         })
+    }
+
+    handleValidate = () => {
+        let countErrors = Object.keys(this.state.errors).length;
+        if (countErrors !== 0) {
+            this.setState({
+                errors: this.validator.validate(this.state),
+            });
+        } else {
+            this.setFieldset3()
+        }
     }
 
     handleSubmit = (e) => {
@@ -83,36 +134,39 @@ export default class CreatePoll extends Component {
     }
 
     render() {
+        const { errors } = this.state;
         const deleteOption = this.deleteOption
         const optionItems = this.state.options.map(function (option, index) {
             return <OptionPoll key={index} option={option} deleteOption={deleteOption} />
         })
         const getInformationForm = this.getStateFromInformationPoll
-        const informationForm = <InformationPoll getStateFromInformationPoll={getInformationForm} />
+        const informationForm = <InformationPoll getStateFromInformationPoll={getInformationForm} setFieldset2={this.setFieldset2} />
+        const settingPoll = <SettingPoll setFieldset2={this.setFieldset2} setFieldset4={this.setFieldset4} />
+        const mailParticipant = <MailParticipant handleSubmit={this.handleSubmit} setFieldset3={this.setFieldset3}/>
         return (
             <React.Fragment>
                 <div className="body-form">
-                    <form onSubmit={this.handleSubmit} id="msform">
+                    <div id="msform">
                         <ul id="progressbar">
-                            <li className="active" id="progress1">
-                                <div></div>
+                            <li className="active" id="progress-information">
+                                <div id="line-information"></div>
                             </li>
-                            <li id="progress2">
-                                <div></div>
+                            <li id="progress-option">
+                                <div id="line-option"></div>
                             </li>
-                            <li id="progress3">
-                                <div></div>
+                            <li id="progress-setting">
+                                <div id="line-setting"></div>
                             </li>
-                            <li id="progress4">
-                                <div></div>
+                            <li id="progress-to-mail">
+                                <div id="line-to-mail"></div>
                             </li>
                         </ul>
-                        <fieldset>
+                        <fieldset className={this.state.fieldset === 1 ? "active-block" : "tab-none"}>
                             {
                                 informationForm
                             }
                         </fieldset>
-                        <fieldset>
+                        <fieldset className={this.state.fieldset === 2 ? "active-block" : "tab-none"}>
                             <h2 className="fs-title">Tùy chọn</h2>
                             <div className="setting">
                                 <div className="controls">
@@ -121,7 +175,7 @@ export default class CreatePoll extends Component {
                                     }
                                     <div className="option-choice">
                                         <div className="entry input-group col-xs-12">
-                                            <input className="form-control" type="text" value={this.state.nameOption} onChange={this.handleChangeNameOption} placeholder="Type something" />
+                                            <input className="form-control" type="text" name="nameOption" value={this.state.nameOption} onChange={handleInputChange.bind(this)} placeholder="Type something" />
                                             <span className="input-group-btn">
                                                 <button className="btn btn-success btn-add" onClick={this.addOption} type="button">
                                                     <span className="glyphicon glyphicon-plus"></span>
@@ -129,20 +183,25 @@ export default class CreatePoll extends Component {
                                             </span>
                                         </div>
                                     </div>
+                                    {errors.nameOption && <div className="validation" style={{ display: 'block' }}>{errors.nameOption}</div>}
                                     <br />
                                     <small>Press <span className="glyphicon glyphicon-plus gs"></span> to add another form option :)</small>
                                 </div>
                             </div>
-                            <input type="button" name="previous" className="previous action-button" value="Previous" />
-                            <input type="button" name="next" className="next action-button" value="Next" />
+                            <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.setFieldset1} />
+                            <input type="button" name="next" className="next action-button" value="Next" onClick={this.handleValidate} />
                         </fieldset>
-                        <fieldset>
-                            <SettingPoll />
+                        <fieldset className={this.state.fieldset === 3 ? "active-block" : "tab-none"}>
+                            {
+                                settingPoll
+                            }
                         </fieldset>
-                        <fieldset>
-                            <MailParticipant />
+                        <fieldset className={this.state.fieldset === 4 ? "active-block" : "tab-none"}>
+                            {
+                                mailParticipant
+                            }
                         </fieldset>
-                    </form>
+                    </div>
                 </div>
             </React.Fragment>
         );

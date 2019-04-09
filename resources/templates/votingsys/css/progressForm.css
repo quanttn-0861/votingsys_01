@@ -180,28 +180,28 @@ body {
   width: 0%!important;
 }
 
-#progressbar #progress1::before {
+#progressbar #progress-information::before {
   background-image: url('../img/icon-i.png');
   background-repeat: no-repeat;
   background-size: 30px 25px;
   background-position: center;
 }
 
-#progressbar #progress2::before {
+#progressbar #progress-option::before {
   background-image: url('../img/icon-q.png');
   background-repeat: no-repeat;
   background-size: 30px 25px;
   background-position: center;
 }
 
-#progressbar #progress3::before {
+#progressbar #progress-setting::before {
   background-image: url('../img/icon-s.png');
   background-repeat: no-repeat;
   background-size: 30px 25px;
   background-position: center;
 }
 
-#progressbar #progress4::before {
+#progressbar #progress-to-mail::before {
   background-image: url('../img/icon-u.png');
   background-repeat: no-repeat;
   background-size: 30px 25px;

@@ -14,8 +14,8 @@ export default class MailParticipant extends Component {
                 </strong>
                 <input name='tags' className='form-control' placeholder='Nhập Email người tham gia...'
                     autoFocus />
-                <input type="button" name="previous" className="previous action-button" value="Previous" />
-                <button name="next" className="action-button" type="submit">Submit</button>
+                <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.props.setFieldset3} />
+                <input type="button" name="previous" className="previous action-button" value="Submit" onClick={this.props.handleSubmit} />
             </React.Fragment>
         );
     }
