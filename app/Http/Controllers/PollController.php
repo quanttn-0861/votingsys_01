@@ -82,6 +82,22 @@ class PollController extends Controller
                 Setting::create($inputDisablePoll);
             }
             
+            $maxVote = $request->maxVote;
+            $inputMaxVote['poll_id'] = $pollId;
+            if ($maxVote != config('setting.setting_poll.not_setting')) {
+                $inputMaxVote['type'] = config('setting.setting_poll.max_vote');
+                $inputMaxVote['value'] = $maxVote;
+                Setting::create($inputMaxVote);
+            }
+
+            $setPassword = $request->setPassword;
+            $inputSetPassword['poll_id'] = $pollId;
+            if ($setPassword != 'no_setpassword') {
+                $inputSetPassword['type'] = config('setting.setting_poll.set_password');
+                $inputSetPassword['value'] = $setPassword;
+                Setting::create($inputSetPassword);
+            }
+
             DB::commit();
 
             return response()

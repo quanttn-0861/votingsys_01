@@ -8,9 +8,6 @@
 
 // slidetoggle
 $(document).ready(function () {
-    $("#flip-checkbox4").click(function () {
-        $("#panel-checkbox4").slideToggle("normal");
-    });
     $(".toggle-password").click(function () {
         $(this).toggleClass("fa-eye fa-eye-slash");
         var input = $($(this).attr("toggle"));

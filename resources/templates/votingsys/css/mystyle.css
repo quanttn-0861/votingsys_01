@@ -407,7 +407,7 @@
 
 .input-inf {
     width: 85% !important;
-    height: 43px;
+    margin-right: 22px;
 }
 
 .input select {
@@ -552,4 +552,9 @@
 
 .item2 img {
     margin-left: 5em !important;
+}
+
+.style-field-password {
+    width: 65%;
+    padding-right: 40%;
 }
