@@ -65,6 +65,23 @@ class PollController extends Controller
                 Setting::create($inputAddSetting);
             }
 
+            $editSetting = $request->editSetting;
+            $inputEditSetting['poll_id'] = $pollId;
+            if ($editSetting == 'invisible_result') {
+                $inputEditSetting['type'] = config('setting.setting_poll.invisible_result');
+                Setting::create($inputEditSetting);
+            } elseif ($editSetting == 'display_number_vote') {
+                $inputEditSetting['type'] = config('setting.setting_poll.display_number_vote');
+                Setting::create($inputEditSetting);
+            }
+
+            $disablePoll = $request->disablePoll;
+            $inputDisablePoll['poll_id'] = $pollId;
+            if ($disablePoll == true) {
+                $inputDisablePoll['type'] = config('setting.setting_poll.disable_poll');
+                Setting::create($inputDisablePoll);
+            }
+            
             DB::commit();
 
             return response()
