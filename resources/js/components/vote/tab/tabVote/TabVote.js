@@ -18,7 +18,7 @@ class TabVote extends Component {
     componentDidMount() {
         axios.get(window.Laravel.baseUrl + '/api/vote')
             .then(response => {
-                const {pollInfo, pollOption, participantVote, pollId} = response.data;
+                const { pollInfo, pollOption, participantVote, pollId } = response.data;
                 this.setState({
                     pollInfo: pollInfo,
                     pollOption: pollOption,
@@ -52,6 +52,7 @@ class TabVote extends Component {
             })
 
     }
+
     render() {
         const countParticipantVote = this.state.participantVote.filter((countVote) => countVote.option.poll_id === this.state.pollId).length;
         return (
