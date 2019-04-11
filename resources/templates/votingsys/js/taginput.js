@@ -8,12 +8,6 @@
 
 // slidetoggle
 $(document).ready(function () {
-    $("#flip-checkbox2").click(function () {
-        $("#panel-checkbox2").slideToggle("normal");
-    });
-    $("#flip-checkbox3").click(function () {
-        $("#panel-checkbox3").slideToggle("normal");
-    });
     $("#flip-checkbox4").click(function () {
         $("#panel-checkbox4").slideToggle("normal");
     });

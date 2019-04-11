@@ -11,12 +11,13 @@ export default class SettingPoll extends Component {
 
         this.state = {
             addSetting: "no_addSetting",
-            editSetting: "edit1",
+            editSetting: "no_editSetting",
+            disablePoll: false,
         }
     }
 
     handleSettingForm = () => {
-        this.props.getSettingForm(this.state.addSetting, this.state.editSetting);
+        this.props.getSettingForm(this.state.addSetting, this.state.editSetting, this.state.disablePoll);
         this.props.setFieldset4();
     }
 
@@ -33,9 +34,33 @@ export default class SettingPoll extends Component {
         $("#panel-checkbox1").slideToggle("normal");
     }
 
-    render() {
-        console.log("Set state change:", this.state.addSetting);    
+    handleClickEditSetting = () => {
+        if (this.state.editSetting === "no_editSetting") {
+            this.setState({
+                editSetting: "invisible_result"
+            })
+        } else {
+            this.setState({
+                editSetting: "no_editSetting"
+            })
+        }
+        $("#panel-checkbox2").slideToggle("normal");
+    }
 
+    handleDisablePoll = () => {
+        if (this.state.disablePoll === false) {
+            this.setState({
+                disablePoll: true,
+            })
+        } else {
+            this.setState({
+                disablePoll: false,
+            })
+        }
+    }
+    render() {    
+        console.log("Set edit setting:", this.state.editSetting);  
+        console.log("Disable poll:", this.state.disablePoll);
         return (
             <React.Fragment>
                 <h2 className="fs-title">Cài đặt</h2>
@@ -75,8 +100,8 @@ export default class SettingPoll extends Component {
 
                     <div className="clear"></div>
 
-                    <div className="style-checkbox style-button-toggle" id="flip-checkbox2">
-                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
+                    <div className="style-checkbox style-button-toggle" onClick={this.handleClickEditSetting}>
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.editSetting === "no_editSetting" ? "" : "true"} />
                     </div>
                     <label className="style-label-setting"> Cho phép chỉnh sửa tùy chọn </label>
                     <div className="panel-checkbox" id="panel-checkbox2">
@@ -84,21 +109,21 @@ export default class SettingPoll extends Component {
                             <input
                                 type="radio"
                                 name="editSetting"
-                                value="edit1"
-                                checked={this.state.editSetting === "edit1"}
+                                value="invisible_result"
+                                checked={this.state.editSetting === "invisible_result"}
                                 onChange={handleOptionChange.bind(this)}
                                 className="form-check-input"
                             />
                             <label className="form-check-label">
-                                Ân tất cả thông bầu chọn
+                                Ân tất cả thông tin/ kết quả bầu chọn
                             </label>
                         </div>
                         <div className="form-check">
                             <input
                                 type="radio"
                                 name="editSetting"
-                                value="edit2"
-                                checked={this.state.editSetting === "edit2"}
+                                value="display_number_vote"
+                                checked={this.state.editSetting === "display_number_vote"}
                                 onChange={handleOptionChange.bind(this)}
                                 className="form-check-input"
                             />
@@ -109,8 +134,8 @@ export default class SettingPoll extends Component {
                     </div>
                     <div className="clear"></div>
 
-                    <div className="style-checkbox style-button-toggle">
-                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
+                    <div className="style-checkbox style-button-toggle" onClick={this.handleDisablePoll}>
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.disablePoll === false ? "" : "true"} />
                     </div>
                     <label className="style-label-setting"> Vô hiệu hóa bầu chọn </label>
 
