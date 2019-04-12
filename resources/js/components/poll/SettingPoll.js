@@ -10,14 +10,21 @@ export default class SettingPoll extends Component {
         super(props);
 
         this.state = {
-            addSetting: "no_addSetting",
-            editSetting: "no_editSetting",
+            addSetting: 'no_addSetting',
+            editSetting: 'no_editSetting',
             disablePoll: false,
+            maxVote: 0,
+            setPassword: 'no_setpassword',
         }
+
     }
 
     handleSettingForm = () => {
-        this.props.getSettingForm(this.state.addSetting, this.state.editSetting, this.state.disablePoll);
+        this.props.getSettingForm(this.state.addSetting, 
+            this.state.editSetting,
+            this.state.disablePoll,
+            this.state.maxVote,
+            this.state.setPassword);
         this.props.setFieldset4();
     }
 
@@ -58,9 +65,34 @@ export default class SettingPoll extends Component {
             })
         }
     }
-    render() {    
-        console.log("Set edit setting:", this.state.editSetting);  
-        console.log("Disable poll:", this.state.disablePoll);
+
+    handleClickMaxVote = () => {
+        if (this.state.maxVote === 0) {
+            this.setState({
+                maxVote: 100
+            })
+        } else {
+            this.setState({
+                maxVote: 0
+            })
+        }
+        $("#panel-checkbox3").slideToggle("normal");
+    }
+
+    handleClickSetPassword = () => {
+        if (this.state.setPassword === 'no_setpassword') {
+            this.setState({
+                setPassword: "",
+            })
+        } else {
+            this.setState({
+                setPassword: 'no_setpassword'
+            })
+        }
+        $("#panel-checkbox4").slideToggle("normal");
+    }
+
+    render() {
         return (
             <React.Fragment>
                 <h2 className="fs-title">Cài đặt</h2>
@@ -141,29 +173,45 @@ export default class SettingPoll extends Component {
 
                     <div className="clear"></div>
 
-                    <div className="style-checkbox style-button-toggle" id="flip-checkbox3">
-                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
+                    <div className="style-checkbox style-button-toggle" onClick={this.handleClickMaxVote}>
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.maxVote === 0 ? "" : "true"} />
                     </div>
                     <label className="style-label-setting"> Đặt số lượng bầu chọn tối đa </label>
                     <div className="panel-checkbox" id="panel-checkbox3">
                         <div className="input link-edit">
-                            <span className="input-group-text"><i className="fa fa-list-ol" aria-hidden="true"></i></span>
-                            <input type="number" className="form-control input-inf"
-                                aria-describedby="basic-addon1" />
+                            <span className="input-group-text">
+                                <i className="fa fa-list-ol" aria-hidden="true"></i>
+                            </span>
+                            <input type="number"
+                                name="maxVote"
+                                className="form-control input-inf"
+                                aria-describedby="basic-addon1"
+                                value={this.state.maxVote}
+                                onChange={handleOptionChange.bind(this)} 
+                            />
                         </div>
                     </div>
 
                     <div className="clear"></div>
                     
-                    <div className="style-checkbox style-button-toggle" id="flip-checkbox4">
-                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" />
+                    <div className="style-checkbox style-button-toggle" onClick={this.handleClickSetPassword}>
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.setPassword === 'no_setpassword' ? "" : "true"} />
                     </div>
-                    <label className="style-label-setting"> Đặt mật khẩu </label>
+                    <label className="style-label-setting style-field-password"> Đặt mật khẩu </label>
                     <div className="panel-checkbox" id="panel-checkbox4">
                         <div className="input link-edit link-edit2">
-                            <span className="input-group-text"><i className="fa fa-key" aria-hidden="true"></i></span>
-                            <input type="password" className="form-control input-inf" id="password-field" aria-describedby="basic-addon1" />
-                            <span className="input-group-text key-span toggle-password fa fa-eye" toggle="#password-field"></span>
+                            <span className="input-group-text">
+                                <i className="fa fa-key" aria-hidden="true"></i>
+                            </span>
+                            <input type="password" 
+                                className="form-control input-inf"
+                                name="setPassword"
+                                id="password-field" 
+                                aria-describedby="basic-addon1"
+                                value={this.state.setPassword}
+                                onChange={handleOptionChange.bind(this)}
+                            />
+                        <span className="input-group-text key-span toggle-password fa fa-eye" toggle="#password-field"></span>
                         </div>
                     </div>
                 </div>

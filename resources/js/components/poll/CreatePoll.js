@@ -27,9 +27,11 @@ export default class CreatePoll extends Component {
             options: [],
             fieldset: 1,
             errors: { error: "error" },
-            addSetting: "",
-            editSetting: "",
-            disablePoll: "",
+            addSetting: '',
+            editSetting: '',
+            disablePoll: '',
+            maxVote: '',
+            setPassword: '',
         };
         const rules = [
             {
@@ -86,11 +88,13 @@ export default class CreatePoll extends Component {
         })
     }
 
-    getSettingForm = (addSettingOne, editSettingOne, disablePoll) => {
+    getSettingForm = (addSettingOne, editSettingOne, disablePoll, maxVote, setPassword) => {
         this.setState({
             addSetting: addSettingOne,
             editSetting: editSettingOne,
             disablePoll: disablePoll,
+            maxVote: maxVote,
+            setPassword: setPassword,
         })
     }
 
@@ -136,6 +140,8 @@ export default class CreatePoll extends Component {
             addSetting: this.state.addSetting,
             editSetting: this.state.editSetting,
             disablePoll: this.state.disablePoll,
+            maxVote: this.state.maxVote,
+            setPassword: this.state.setPassword,
         }
         axios.post(url, data)
             .then(response => {
