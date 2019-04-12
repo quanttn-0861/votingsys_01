@@ -96,6 +96,7 @@ class TabResult extends Component {
                             handleClickTabResult1={this.handleClickTabResult1}
                             pollOption={this.state.pollOption}
                             participantVote={this.state.participantVote}
+                            pollId={this.state.pollId}
                         />
                         <BarChart
                             tabResult={this.state.tabResult}

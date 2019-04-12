@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import autoBind from "react-autobind";
 import Validator from '../../../utils/validator'
-import RowVote from './RowVote'
-import RadioOption2 from './formInputChildren/RadioOption2'
-import RadioOption1 from './formInputChildren/RadioOption1'
+import RadioOption from './RadioOption'
 
 class FormInputInfo extends Component {
     constructor(props) {
@@ -82,71 +80,16 @@ class FormInputInfo extends Component {
     render() {
         const { errors } = this.state;
         const option = this.state.option;
-        const pollId = this.props.pollId;
-        const pollOption = this.props.pollOption;
-        const participantVote = this.props.participantVote;
         const handleChangedOption = this.handleChangedOption;
-        const nameOption = this.props.pollOption.map(function (option) {
-            return <React.Fragment key={option.id}>
-                <th className="table-optionName">{option.name}</th>
-            </React.Fragment>
-        });
-        const rowVote = this.props.participantVote.map(function (participantVote) {
-            if (participantVote.option.poll_id === pollId) {
-                return <RowVote key={participantVote.id} participantVote={participantVote} pollOption={pollOption} />
-            }
-        });
-        const countByOption = this.props.pollOption.map(function (option) {
-            const countByOption = participantVote.filter((countVote) => countVote.option_id === option.id).length;
-            return <React.Fragment key={option.id}><th className="table-result">{countByOption}</th></React.Fragment>
-        });
-        const radioOption2 = this.props.pollOption.map(function (pollOption) {
-            return <RadioOption2 key={pollOption.id} pollOption={pollOption} option={option} handleChangedOption={handleChangedOption} />
-        });
-        const radioOption1 = this.props.pollOption.map(function (pollOption) {
-            return <RadioOption1 key={pollOption.id} pollOption={pollOption} option={option} handleChangedOption={handleChangedOption} />
+        const radioOption = this.props.pollOption.map(function (pollOption) {
+            return <RadioOption key={pollOption.id} pollOption={pollOption} option={option} handleChangedOption={handleChangedOption} />
         })
-        const countParticipantVote = this.props.participantVote.filter((countVote) => countVote.option.poll_id === this.props.pollId).length;
 
         return (
             <React.Fragment>
-                <div className="switch-tab">
-                    <button className={this.props.tabChildren == 2 ? "btn float-right switch-tab-button-active" : "btn float-right"} onClick={this.props.handleClickTabChildren2}>
-                        <i className="fa fa-th-large"></i>
-                    </button>
-                    <button className={this.props.tabChildren == 1 ? "btn float-right switch-tab-button-active" : "btn float-right"} onClick={this.props.handleClickTabChildren1}>
-                        <i className="fa fa-th-list"></i>
-                    </button>
-                </div>
                 <div className="tab-content">
                     <div className={this.props.tabChildren == 1 ? "tab-horizon active-block" : "tab-horizon tab-none"}>
-                        {radioOption1}
-                    </div>
-                    <div className={this.props.tabChildren == 2 ? "tab-time active-block" : "tab-time tab-none"}>
-                        <table className="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr className="table-head">
-                                    <th colSpan="3"> {countParticipantVote} Người bầu chọn</th>
-                                    {countByOption}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className="table-head">
-                                    <th className="table-option"></th>
-                                    <td className="table-name bold">Tên</td>
-                                    <td className="table-name bold">Email</td>
-                                    {nameOption}
-                                </tr>
-                                {rowVote}
-                                <tr>
-                                    <th className="table-option">
-                                    </th>
-                                    <td></td>
-                                    <td></td>
-                                    {radioOption2}
-                                </tr>
-                            </tbody>
-                        </table>
+                        {radioOption}
                     </div>
                 </div>
                 <div className="info-submit">
@@ -155,7 +98,6 @@ class FormInputInfo extends Component {
                             <span className="input-group-addon">
                                 <i className="fa fa-user" aria-hidden="true"></i>
                             </span>
-
                             <input
                                 className="form-control nameVote"
                                 placeholder="Nhập tên của bạn..."
@@ -163,7 +105,6 @@ class FormInputInfo extends Component {
                                 type="text"
                                 value={this.state.name}
                                 onChange={this.handleInputChange}
-
                             />
                         </div>
                         {errors.name && <div className="validation" ><i className="fa fa-exclamation-triangle"></i>{errors.name}</div>}

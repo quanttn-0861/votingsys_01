@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import autoBind from "react-autobind";
 
-class RadioOption1 extends Component {
+class RadioOption extends Component {
     constructor(props) {
         super(props);
         autoBind(this);
@@ -18,11 +18,11 @@ class RadioOption1 extends Component {
                             checked={this.props.option == this.props.pollOption.id ? true : ''}
                         />
                         <span className="radio__circle"></span>&nbsp;<p className="radio__text">{this.props.pollOption.name}</p>
-                        {/* <img className="radio-img" src="/templates/votingsys/img/user/user-default.png" /> */}
+                        <img className="radio-img" src="/templates/votingsys/img/user/user-default.png" />
                     </label>
                 </div>
             </React.Fragment >
         );
     }
 }
-export default RadioOption1;
+export default RadioOption;
