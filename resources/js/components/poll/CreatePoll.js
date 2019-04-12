@@ -7,9 +7,7 @@ import InformationPoll from './InformationPoll';
 import SettingPoll from './SettingPoll';
 import MailParticipant from './MailParticipant';
 import { handleInputChange } from '../utils/InputHandler';
-import { withFormik } from 'formik';
 import Validator from '../utils/validator'
-import * as Yup from 'yup'
 
 export default class CreatePoll extends Component {
     constructor(props) {
