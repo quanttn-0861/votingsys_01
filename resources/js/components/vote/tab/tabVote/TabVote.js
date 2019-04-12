@@ -13,17 +13,19 @@ class TabVote extends Component {
             pollInfo: [],
             pollOption: [],
             participantVote: [],
+            comments: [],
         }
     }
     componentDidMount() {
         axios.get(window.Laravel.baseUrl + '/api/vote')
             .then(response => {
-                const { pollInfo, pollOption, participantVote, pollId } = response.data;
+                const { pollInfo, pollOption, participantVote, pollId, comments } = response.data;
                 this.setState({
                     pollInfo: pollInfo,
                     pollOption: pollOption,
                     participantVote: participantVote,
                     pollId: pollId,
+                    comments: comments,
                 })
             })
             .catch(function (error) {
@@ -55,6 +57,8 @@ class TabVote extends Component {
 
     render() {
         const countParticipantVote = this.state.participantVote.filter((countVote) => countVote.option.poll_id === this.state.pollId).length;
+        const countComment = this.state.comments.length;
+
         return (
             < React.Fragment >
                 <div className={this.props.tab == 1 ? "tabs-stage-div active-block" : "tabs-stage-div tab-none"}>
@@ -65,7 +69,7 @@ class TabVote extends Component {
                             <span className="count-participant">&nbsp;{countParticipantVote}</span>
                         </span>
                         <span className="label label-info fa fa-comment poll-details">
-                            <span className="comment-count"> 0</span>
+                            <span className="comment-count">&nbsp;{countComment}</span>
                         </span>
                         <span className="label label-success fa fa-time poll-details">
                             {this.state.pollInfo.created_at}
@@ -74,6 +78,7 @@ class TabVote extends Component {
                             Thời gian đóng bầu chọn: <i>{this.state.pollInfo.date_close}</i>
                         </span>
                     </label>
+                    
                     <FormInputInfo
                         handleSubmit={this.handleSubmit}
                         tabChildren={this.props.tabChildren}

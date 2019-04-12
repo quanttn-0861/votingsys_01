@@ -23,7 +23,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         'gender' => $faker->numberBetween(0, 2),
         'role' => 0,
-        'avatar' => 'default.img',
+        'avatar' => 'user-default.png',
         'token_verfication' => '',
         'is_active' => 1,
     ];

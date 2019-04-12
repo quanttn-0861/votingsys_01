@@ -21,6 +21,7 @@ Route::resource('poll', 'PollController');
 
 Route::namespace('User')->prefix('api')->group(function(){
     Route::resource('vote', 'VoteController');
+    Route::resource('comment', 'CommentController');
 });
 
 Route::view('/{any}', 'home')
