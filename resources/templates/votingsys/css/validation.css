@@ -1,0 +1,12 @@
+.style-errors {
+    color: red;
+    display: block;
+    float: left;
+    padding: 1% 0px 3% 12%;
+}
+
+.style-error-option {
+    float: left;
+    padding: 1% 0px 0px 1%;
+    color: red;
+}

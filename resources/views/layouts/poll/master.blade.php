@@ -21,6 +21,7 @@
     {{ Html::style(asset('/templates/votingsys/css/main.css')) }}
     {{ Html::style(asset('/templates/votingsys/css/mystyle.css')) }}
     {{ Html::style(asset('/templates/votingsys/css/progressForm.css')) }}
+    {{ Html::style(asset('/templates/votingsys/css/validation.css')) }}
     {{ Html::style(asset('/templates/votingsys/css/bootstrap-datetimepicker.min.css')) }}
     {{ Html::style(asset('/templates/votingsys/css/bootstrap-datetimepicker-standalone.css')) }}
     {{ Html::style(asset('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')) }}

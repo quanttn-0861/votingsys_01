@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { handleInputChange } from '../utils/InputHandler';
-import Validator from '../utils/validator'
-import * as yup from 'yup';
+import SimpleReactValidator from 'simple-react-validator';
+import moment from 'moment';
+import {DatetimePickerTrigger} from 'rc-datetime-picker';
+import "rc-datetime-picker/dist/picker.min.css";
 
 export default class InformationPoll extends Component {
     constructor(props) {
@@ -18,60 +18,25 @@ export default class InformationPoll extends Component {
             title: '',
             multiple: 1,
             description: '',
-            date_close: new Date(),
             location: '',
-            errors: { error: "error" },
+            moment: moment().day(30),
         };
-        const rules = [
-            {
-                field: 'name',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Vui lòng nhập tên để bầu chọn poll này',
+        this.validator = new SimpleReactValidator({
+            messages: {
+                required: 'Vui lòng nhập vào ô này',
+                email: 'Email không đúng định dạng.',
             },
-            {
-                field: 'email',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Vui lòng nhập email để bầu chọn poll này',
-            },
-            {
-                field: 'email',
-                method: 'isEmail',
-                validWhen: true,
-                message: 'Email không đúng định dạng',
-            },
-            {
-                field: 'title',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Vui lòng nhập tiêu đề poll',
-            },
-        ];
-        this.validator = new Validator(rules);
+        });
     }
 
-    handleChangeDateClose = (date) => {
+    handleChange = (moment) => {
         this.setState({
-            date_close: date
-        })
-    }
-
-    getMessagErrorsValidate() {
-        this.setState(nextState => {
-            return {
-                errors: this.validator.validate(nextState)
-            }
+            moment
         });
     }
 
     getInformationForm = () => {
-        let countErrors = Object.keys(this.state.errors).length;
-        if (countErrors !== 0) {
-            this.setState({
-                errors: this.validator.validate(this.state),
-            });
-        } else {
+        if (this.validator.allValid()) {
             this.props.setFieldset2()
             this.props.getStateFromInformationPoll(
                 this.state.name,
@@ -79,12 +44,15 @@ export default class InformationPoll extends Component {
                 this.state.title,
                 this.state.multiple,
                 this.state.description,
-                this.state.date_close,
+                this.state.moment.format('YYYY-MM-DD HH:mm'),
                 this.state.location
-        )}
+            )
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
+        }
     }
     render() {
-        const { errors } = this.state;
         return (
             <React.Fragment>
                 <h2 className="fs-title">Thông tin</h2>
@@ -98,9 +66,9 @@ export default class InformationPoll extends Component {
                         value={this.state.name}
                         onChange={handleInputChange.bind(this)}
                         aria-describedby="basic-addon1" />
-                    {errors.name && <div className="validation" style={{ display: 'block' }}>{errors.name}</div>}
+                    {<div className="style-errors">{this.validator.message('tên', this.state.name, 'required')}</div>}
                 </div>
-                <div className="input">
+                <div className={!this.validator.allValid() ? "input" : "input style-field-email"}>
                     <span className="input-group-text">
                         <i className="fa fa-envelope"
                             aria-hidden="true">
@@ -112,7 +80,8 @@ export default class InformationPoll extends Component {
                         value={this.state.email}
                         onChange={handleInputChange.bind(this)}
                         aria-describedby="basic-addon1" />
-                    {errors.email && <div className="validation" style={{ display: 'block' }}>{errors.email}</div>}
+                    {<div className="style-errors">{this.validator.message('email', this.state.email, 'required|email')}</div>}
+                    
                 </div>
                 <div className="input">
                     <span className="input-group-text">
@@ -126,7 +95,7 @@ export default class InformationPoll extends Component {
                         value={this.state.title}
                         onChange={handleInputChange.bind(this)}
                         aria-describedby="basic-addon1" />
-                    {errors.title && <div className="validation" style={{ display: 'block' }}>{errors.title}</div>}
+                    {<div className="style-errors">{this.validator.message('tiêu đề', this.state.title, 'required')}</div>}
                 </div>
                 <div className="input">
                     <select name="multiple"
@@ -148,22 +117,14 @@ export default class InformationPoll extends Component {
                     onChange={handleInputChange.bind(this)}
                     placeholder="Nhập mô tả cho poll này...">
                 </textarea>
-                <div className="input">
-                    <span className="input-group-text">
-                        <i className="fa fa-clock-o"
-                            aria-hidden="true">
-                        </i>
-                    </span>
-                    <div className='col-sm-6 datetime'>
-                        <DatePicker
-                            className="form-control datetime-input"
-                            selected={this.state.date_close}
-                            onSelect={this.handleChangeDateClose}
-                            onChange={this.handleChangeDateClose}
-                        />
-                    </div>
+                <div className="input style-padding-top">
+                    <DatetimePickerTrigger
+                        moment={this.state.moment}
+                        onChange={this.handleChange}>
+                        <input type="text" className="style-field-date" placeholder="Nhập thời gian đóng poll" value={this.state.moment.format('DD-MM-YYYY HH:mm')} readOnly />
+                    </DatetimePickerTrigger>      
                 </div>
-                <div className="input">
+                <div className="input style-padding-top">
                     <span className="input-group-text">
                         <i className="fa fa-map-marker"
                             aria-hidden="true">
@@ -180,7 +141,7 @@ export default class InformationPoll extends Component {
                 </div>
                 <input type="button"
                     name="next"
-                    className="next action-button"
+                    className="next action-button style-button-action"
                     onClick={this.getInformationForm}
                     value="Next" />
             </React.Fragment>

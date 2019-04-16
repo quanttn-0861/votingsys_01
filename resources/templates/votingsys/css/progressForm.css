@@ -46,12 +46,10 @@ body {
 
 /*inputs*/
 
-#msform input,
-#msform textarea {
+#msform input {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-bottom: 10px;
   width: 100%;
   box-sizing: border-box;
   font-family: montserrat;
@@ -59,6 +57,9 @@ body {
   font-size: 13px;
 }
 
+#msform textarea {
+  margin-top: 15%;
+}
 
 /*buttons*/
 

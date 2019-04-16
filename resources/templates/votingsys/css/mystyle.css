@@ -390,6 +390,10 @@
     padding-left: 10px;
 }
 
+.style-padding-top {
+    padding-top: 2%;
+}
+
 .input span {
     width: 10%;
     height: 34px;
@@ -557,4 +561,16 @@
 .style-field-password {
     width: 65%;
     padding-right: 40%;
+}
+
+.style-field-date {
+    padding: 2% !important;
+}
+
+.style-button-action {
+    margin : 3% 37% 0% 38% !important;
+}
+
+.style-field-email {
+    padding-bottom: 3%;
 }

@@ -13,6 +13,5 @@ $factory->define(App\Models\Poll::class, function (Faker $faker) {
         'multiple' => $faker->boolean,
         'name' => $faker->name,
         'email' => $faker->email,
-        'date_close' => '',
     ];
 });
