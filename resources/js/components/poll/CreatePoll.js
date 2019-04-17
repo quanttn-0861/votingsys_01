@@ -163,7 +163,7 @@ export default class CreatePoll extends Component {
         const getInformationForm = this.getStateFromInformationPoll
         const informationForm = <InformationPoll getStateFromInformationPoll={getInformationForm} setFieldset2={this.setFieldset2} />
         const settingPoll = <SettingPoll getSettingForm={this.getSettingForm} setFieldset2={this.setFieldset2} setFieldset4={this.setFieldset4} />
-        const mailParticipant = <MailParticipant handleSubmit={this.handleSubmit} setFieldset3={this.setFieldset3}/>
+        const mailParticipant = <MailParticipant handleSubmit={this.handleSubmit} setFieldset3={this.setFieldset3} />
         return (
             <React.Fragment>
                 <div className="body-form">

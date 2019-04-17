@@ -14,7 +14,7 @@
 
 $('body').append('<div style="" id="loadingDiv"><div class="loader"></div></div>');
 $(window).on('load', function () {
-  setTimeout(removeLoader, 1000);
+  setTimeout(removeLoader, 300);
 });
 
 function removeLoader() {

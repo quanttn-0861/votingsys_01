@@ -18,5 +18,5 @@ render(
             <Route path='/link-poll' component={LinkPoll} />
             <Route path="/vote" component={VoteApp} />
         </Switch>
-    </Router>, document.getElementById('information-poll')
+    </Router>, document.getElementById('app')
 )

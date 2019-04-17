@@ -78,7 +78,7 @@ class TabVote extends Component {
                             Thời gian đóng bầu chọn: <i>{this.state.pollInfo.date_close}</i>
                         </span>
                     </label>
-                    
+                    <div className="line-tab-vote" />
                     <FormInputInfo
                         handleSubmit={this.handleSubmit}
                         tabChildren={this.props.tabChildren}
