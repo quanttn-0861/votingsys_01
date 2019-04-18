@@ -4,9 +4,28 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default class LinkPoll extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            link_user: '',
+            link_admin: '',
+        }
+    }
+
+    componentDidMount () {
+        const link_user = this.props.location.state.link_user
+        const link_admin = this.props.location.state.link_admin
+        this.setState({
+            link_user: link_user,
+            link_admin: link_admin,
+        })
+    }
+
     render() {
-        var link_user = "link here"
-        var link_admin = "link here"
+        var app_url = window.Laravel.baseUrl
+        var link_user = app_url+"/vote/"+this.state.link_user
+        var link_admin = app_url+"/vote/"+this.state.link_admin
         return (
             <section className="item-category-area section-gap">
                 <div className="container">

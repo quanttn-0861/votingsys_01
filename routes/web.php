@@ -19,6 +19,8 @@ Route::namespace('Admin')->group(function(){
 
 Route::resource('poll', 'PollController');
 
+Route::resource('link', 'LinkController');
+
 Route::namespace('User')->prefix('api')->group(function(){
     Route::resource('vote', 'VoteController');
     Route::resource('comment', 'CommentController');
