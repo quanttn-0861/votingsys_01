@@ -49,13 +49,6 @@ class FormInputInfo extends Component {
         });
         this.getMessagErrorsValidate();
     }
-    handleChangedEmail(e) {
-        this.setState({
-            email: e.target.value
-        })
-
-        this.getMessagErrorsValidate();
-    }
 
     getMessagErrorsValidate() {
         this.setState(nextState => {

@@ -8,6 +8,7 @@ use App\Models\ParticipantVote;
 use App\Models\Participant;
 use App\Models\Poll;
 use App\Models\Option;
+use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 
 class VoteController extends Controller
@@ -28,11 +29,16 @@ class VoteController extends Controller
         ])->get();
 
         $pollOption = Option::where('poll_id', $pollId)->get();
+        $comments =  Comment::where('poll_id', $pollId)->with([
+            'user',
+        ])->get();
+        
         return response()->json([
                 'pollInfo' => $pollInfo,
                 'pollOption' => $pollOption,
                 'participantVote' => $participantVote,
                 'pollId' => $pollId,
+                'comments' => $comments,
             ]);
     }
 
