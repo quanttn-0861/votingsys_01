@@ -30,6 +30,7 @@ export default class CreatePoll extends Component {
             disablePoll: '',
             maxVote: '',
             setPassword: '',
+            tagsEmail: [],
         };
         this.validator = new SimpleReactValidator({
             messages: {
@@ -116,9 +117,22 @@ export default class CreatePoll extends Component {
         }
     }
 
-    handleSubmit = (e) => {
+    getTagsEmail = (tags) => {
+        var arrEmail = [];
+        var temp = tags;
+        temp.map(function(element) {
+            arrEmail.push(element['text']);
+        })
+        console.log("arrEmail", arrEmail);
+        this.setState({
+            tagsEmail: arrEmail
+        }, () => {
+            this.handleSubmit(this.state.tagsEmail);
+        })
+    }
+    
+    handleSubmit = (tagsEmail) => {
         this.state.options.push(this.state.nameOption)
-        e.preventDefault()
         const url = window.Laravel.baseUrl + '/poll'
         const data = {
             name: this.state.name,
@@ -134,6 +148,7 @@ export default class CreatePoll extends Component {
             disablePoll: this.state.disablePoll,
             maxVote: this.state.maxVote,
             setPassword: this.state.setPassword,
+            tagsEmail: tagsEmail,
         }
         axios.post(url, data)
             .then(response => {
@@ -155,7 +170,6 @@ export default class CreatePoll extends Component {
             });
         }
         var checkSameOption = Object.keys(arrayOptionNew).length
-
         const deleteOption = this.deleteOption
         const optionItems = this.state.options.map(function (option, index) {
             return <OptionPoll key={index} option={option} deleteOption={deleteOption} />
@@ -163,7 +177,8 @@ export default class CreatePoll extends Component {
         const getInformationForm = this.getStateFromInformationPoll
         const informationForm = <InformationPoll getStateFromInformationPoll={getInformationForm} setFieldset2={this.setFieldset2} />
         const settingPoll = <SettingPoll getSettingForm={this.getSettingForm} setFieldset2={this.setFieldset2} setFieldset4={this.setFieldset4} />
-        const mailParticipant = <MailParticipant handleSubmit={this.handleSubmit} setFieldset3={this.setFieldset3} />
+        const mailParticipant = <MailParticipant getTagsEmail = {this.getTagsEmail} handleSubmit={this.handleSubmit} setFieldset3={this.setFieldset3}/>
+
         return (
             <React.Fragment>
                 <div className="body-form">

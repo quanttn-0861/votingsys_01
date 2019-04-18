@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Poll;
 use App\Models\Option;
 use App\Models\Setting;
+use App\Mail\SendInvitationParticipants;
+use App\Jobs\JobSendInvitationParticipants;
+use Mail;
+use Carbon\Carbon;
 
 class PollController extends Controller
 {
@@ -45,9 +49,7 @@ class PollController extends Controller
 
             $pollId = Poll::insertGetId($input);
 
-            $inputOption = $request->only('options');
-            $inputOption = $inputOption['options'];
-
+            $inputOption = $request->options;
             foreach ($inputOption as $key => $value) {
                 $option = new Option;
                 $option->name = $value;
@@ -96,6 +98,14 @@ class PollController extends Controller
                 $inputSetPassword['type'] = config('setting.setting_poll.set_password');
                 $inputSetPassword['value'] = $setPassword;
                 Setting::create($inputSetPassword);
+            }
+
+            $tagsMail = $request->tagsEmail;
+
+            if (is_array($tagsMail)) {
+                foreach ($tagsMail as $value) {
+                    dispatch(new JobSendInvitationParticipants($value));
+                }
             }
 
             DB::commit();
