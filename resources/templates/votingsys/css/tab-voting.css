@@ -3,7 +3,7 @@
 }
 
 .tabs {
-    min-width: 72em;
+    min-width: 100%;
     padding: 40px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff;
@@ -146,7 +146,6 @@
 
 .info-submit {
     margin-top: 10px;
-    border-top: 1px solid #d8d8d8;
 }
 
 .col-lg-5 {
@@ -314,16 +313,23 @@
 
 .active-block {
     display: block !important;
+    -webkit-animation: scale-display 0.3s;
+    animation: scale-display 0.3s;
 }
 
 .tab-none {
     display: none;
+    -webkit-animation: scale-display--reversed 0.3s;
+    animation: scale-display--reversed 0.3s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
 }
 
 .required::after {
     content: '(*)';
     color: red;
     position: absolute;
+    margin-left: 2px;
 }
 
 .tab-content div {
@@ -401,6 +407,10 @@
 }
 
 .tab-horizon div {
+    border-bottom: 1px solid #cccccc;
+}
+
+.line-tab-vote {
     border-top: 1px solid #cccccc;
 }
 
@@ -603,8 +613,8 @@
 
 /* modal result */
 
-.modal-dialog.modal-lg {
-    min-width: 1110px !important;
+.modal-dialog.modal-lg:not(.model-link) {
+    min-width: 85% !important;
 }
 
 /* search box  */
@@ -749,8 +759,6 @@ input[type=search]:focus {
     box-shadow: none;
 }
 
-.box-comment-input {}
-
 .comments-list .comment-box:before, .comments-list .comment-box:after {
     content: '';
     height: 0;
@@ -794,6 +802,7 @@ input[type=search]:focus {
     -webkit-transition: color 0.3s ease;
     -o-transition: color 0.3s ease;
     transition: color 0.3s ease;
+    font-size: 17px;
 }
 
 .comment-box .comment-head i:hover {
@@ -850,10 +859,10 @@ input[type=search]:focus {
 
 @media only screen and (max-width: 766px) {
     .comments-container {
-        width: 480px;
+        width: 100%;
     }
     .comments-list .comment-box {
-        width: 390px;
+        width: 100%;
     }
     .reply-list .comment-box {
         width: 320px;
@@ -898,4 +907,128 @@ input[type=search]:focus {
 
 .marker-comment {
     color: #FF0000;
+}
+
+/* animation div */
+
+@-webkit-keyframes scale-display {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes scale-display {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+@-webkit-keyframes scale-display--reversed {
+    0% {
+        display: inline-flex;
+        opacity: 1;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+    99% {
+        display: inline-flex;
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    100% {
+        display: none;
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+}
+
+@keyframes scale-display--reversed {
+    0% {
+        display: inline-flex;
+        opacity: 1;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+    99% {
+        display: inline-flex;
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    100% {
+        display: none;
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+}
+
+/* hover swing icon */
+
+@keyframes swing {
+    0% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(10deg);
+    }
+    30% {
+        transform: rotate(0deg);
+    }
+    40% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    60% {
+        transform: rotate(5deg);
+    }
+    70% {
+        transform: rotate(0deg);
+    }
+    80% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.btn.float-right:hover:not(.switch-tab-button-active)>i {
+    animation: swing ease-in-out 0.5s 1 alternate;
+}
+
+.fa-reply:hover {
+    animation: swing ease-in-out 0.5s 1 alternate;
+    font-size: 20px !important;
+    line-height: 15px;
+}
+
+.fa-heart:hover {
+    animation: swing ease-in-out 0.5s 1 alternate;
+    font-size: 20px !important;
+    line-height: 15px;
+}
+
+.fa-trash:hover {
+    animation: swing ease-in-out 0.5s 1 alternate;
+    font-size: 20px !important;
+    line-height: 15px;
 }

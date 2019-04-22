@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-
 /*basic reset*/
 
 * {
@@ -16,11 +15,10 @@ body {
   font-family: "Open Sans", arial, verdana;
 }
 
-
 /*form styles*/
 
 #msform {
-  width: 600px;
+  width: 80%;
   margin: 50px auto;
   text-align: center;
   position: relative;
@@ -33,16 +31,13 @@ body {
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
   padding: 20px 30px;
   box-sizing: border-box;
-  width: 140%;
-  margin: 0 10%;
-  /* left: -28% !important; */
-  position: absolute;
+  width: 90%;
+  margin: auto;
 }
 
 #msform fieldset:not(:first-of-type) {
   display: none;
 }
-
 
 /*inputs*/
 
@@ -75,11 +70,9 @@ body {
   margin: 10px 5px;
 }
 
-#msform .action-button:hover,
-#msform .action-button:focus {
+#msform .action-button:hover, #msform .action-button:focus {
   box-shadow: 0 0 0 2px white, 0 0 0 3px #67d5bf;
 }
-
 
 /*headings*/
 
@@ -97,14 +90,13 @@ body {
   margin-bottom: 20px;
 }
 
-
 /*progressbar*/
 
 #progressbar {
   margin-bottom: 30px;
   overflow: hidden;
   counter-reset: step;
-  width: 160%;
+  width: 100%;
 }
 
 #progressbar li {
@@ -146,8 +138,7 @@ body {
   content: none;
 }
 
-#progressbar li.active:before,
-#progressbar li.active:after {
+#progressbar li.active:before, #progressbar li.active:after {
   background: #67d5bf;
   color: white;
 }

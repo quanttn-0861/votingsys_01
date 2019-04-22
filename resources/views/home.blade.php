@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-md-12 pb-80 header-text text-center text-center2">
-                <div id="information-poll">
+                <div id="app">
                 </div>
             </div>
         </div>
