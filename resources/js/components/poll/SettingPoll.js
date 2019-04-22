@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { handleInputChange } from '../utils/InputHandler';
 import { handleOptionChange } from '../utils/HandleOptionChange';
+import SimpleReactValidator from 'simple-react-validator';
 
 export default class SettingPoll extends Component {
     constructor(props) {
@@ -16,16 +17,35 @@ export default class SettingPoll extends Component {
             maxVote: 0,
             setPassword: 'no_setpassword',
         }
-
+        this.validator = new SimpleReactValidator({
+            messages: {
+                required: 'Vui lòng không để trống ô này',
+                max: 'Số lượng bầu chọn không được vượt quá 10000'
+            },
+        });
     }
 
     handleSettingForm = () => {
-        this.props.getSettingForm(this.state.addSetting, 
-            this.state.editSetting,
-            this.state.disablePoll,
-            this.state.maxVote,
-            this.state.setPassword);
-        this.props.setFieldset4();
+        if ((this.state.setPassword !== 'no_setpassword') || (this.state.maxVote !== 0)) {
+            if (this.validator.fieldValid('setPassword') && this.validator.fieldValid('maxVote')) {
+                this.props.getSettingForm(this.state.addSetting, 
+                    this.state.editSetting,
+                    this.state.disablePoll,
+                    this.state.maxVote,
+                    this.state.setPassword);
+                this.props.setFieldset4();
+            } else {
+                this.validator.showMessages();
+                this.forceUpdate();
+            } 
+        } else {
+            this.props.getSettingForm(this.state.addSetting, 
+                this.state.editSetting,
+                this.state.disablePoll,
+                this.state.maxVote,
+                this.state.setPassword);
+            this.props.setFieldset4();
+        }
     }
 
     handleClickAddSetting = () => {
@@ -69,7 +89,7 @@ export default class SettingPoll extends Component {
     handleClickMaxVote = () => {
         if (this.state.maxVote === 0) {
             this.setState({
-                maxVote: 100
+                maxVote: ""
             })
         } else {
             this.setState({
@@ -189,6 +209,7 @@ export default class SettingPoll extends Component {
                                 value={this.state.maxVote}
                                 onChange={handleOptionChange.bind(this)} 
                             />
+                        {<div className="validation" style={{ display: 'block' }}>{this.validator.message('maxVote', this.state.maxVote, 'required|max:4')}</div>}
                         </div>
                     </div>
 
@@ -212,6 +233,7 @@ export default class SettingPoll extends Component {
                                 onChange={handleOptionChange.bind(this)}
                             />
                         <span className="input-group-text key-span toggle-password fa fa-eye" toggle="#password-field"></span>
+                        {<div className="validation" style={{ display: 'block' }}>{this.validator.message('setPassword', this.state.setPassword, 'required')}</div>}
                         </div>
                     </div>
                 </div>

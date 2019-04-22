@@ -7,9 +7,7 @@ import InformationPoll from './InformationPoll';
 import SettingPoll from './SettingPoll';
 import MailParticipant from './MailParticipant';
 import { handleInputChange } from '../utils/InputHandler';
-import { withFormik } from 'formik';
-import Validator from '../utils/validator'
-import * as Yup from 'yup'
+import SimpleReactValidator from 'simple-react-validator';
 
 export default class CreatePoll extends Component {
     constructor(props) {
@@ -33,15 +31,11 @@ export default class CreatePoll extends Component {
             maxVote: '',
             setPassword: '',
         };
-        const rules = [
-            {
-                field: 'nameOption',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Vui lòng nhập đáp án bầu chọn trong poll này',
+        this.validator = new SimpleReactValidator({
+            messages: {
+                required: 'Vui lòng nhập các lựa chọn của bạn',
             },
-        ];
-        this.validator = new Validator(rules);
+        });
     }
 
     setFieldset1 = () => {
@@ -114,13 +108,11 @@ export default class CreatePoll extends Component {
     }
 
     handleValidate = () => {
-        let countErrors = Object.keys(this.state.errors).length;
-        if (countErrors !== 0) {
-            this.setState({
-                errors: this.validator.validate(this.state),
-            });
-        } else {
+        if (this.validator.allValid()) {
             this.setFieldset3()
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
         }
     }
 
@@ -154,7 +146,16 @@ export default class CreatePoll extends Component {
     }
 
     render() {
-        const { errors } = this.state;
+        var tempInput = this.state.nameOption // dat 1 bien tam cho nameOption de so sanh
+        var arrayOption = this.state.options // tao mot mang tam de so sanh
+        var arrayOptionNew = [] // mang sau khi so sanh
+        if (tempInput.length > 0) { // kiem tra khi bat dau nhap
+            arrayOptionNew = arrayOption.filter(function (i) { // loc mang de so sanh cac phan tu
+                if (i.toLowerCase() === tempInput.toLowerCase()) return true // kiem tra xem co bi trung hay khong
+            });
+        }
+        var checkSameOption = Object.keys(arrayOptionNew).length
+
         const deleteOption = this.deleteOption
         const optionItems = this.state.options.map(function (option, index) {
             return <OptionPoll key={index} option={option} deleteOption={deleteOption} />
@@ -203,13 +204,15 @@ export default class CreatePoll extends Component {
                                             </span>
                                         </div>
                                     </div>
-                                    {errors.nameOption && <div className="validation" style={{ display: 'block' }}>{errors.nameOption}</div>}
+                                    {<div className="style-error-option">{this.validator.message('nameOption', this.state.nameOption, 'required')}</div>}
+                                    {checkSameOption > 0 ? <div className="style-error-option">Câu trả lời bị trùng, xin hãy chọn câu trả lời khác</div> : "" }
                                     <br />
-                                    <small>Press <span className="glyphicon glyphicon-plus gs"></span> to add another form option :)</small>
+                                    <div className="clear"></div>
+                                    <small>Press <span className="glyphicon glyphicon-plus gs"></span> to add another form option</small>
                                 </div>
                             </div>
                             <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.setFieldset1} />
-                            <input type="button" name="next" className="next action-button" value="Next" onClick={this.handleValidate} />
+                            <input type="button" name="next" className="next action-button" value="Next" onClick={checkSameOption > 0 ? null : this.handleValidate} />
                         </fieldset>
                         <fieldset className={this.state.fieldset === 3 ? "active-block" : "tab-none"}>
                             {

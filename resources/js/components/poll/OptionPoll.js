@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Validator from '../utils/validator'
 import { handleInputChange } from '../utils/InputHandler';
 
 export default class OptionPoll extends Component {

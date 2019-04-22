@@ -22,7 +22,7 @@ class CreatePollsTable extends Migration
             $table->string('location')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('multiple')->default(false);
-            $table->string('date_close')->nullable();
+            $table->timestamp('date_close')->nullable();
             $table->timestamps();
         });
 

@@ -6,7 +6,4 @@ export function handleInputChange(event) {
     this.setState({
         [input]: event.target.value
     });
-    this.setState({
-        errors: this.validator.validate(this.state),
-    });
 }
