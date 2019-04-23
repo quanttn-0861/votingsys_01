@@ -218,7 +218,7 @@ export default class SettingPoll extends Component {
                     <div className="style-checkbox style-button-toggle" onClick={this.handleClickSetPassword}>
                         <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.setPassword === 'no_setpassword' ? "" : "true"} />
                     </div>
-                    <label className="style-label-setting style-field-password"> Đặt mật khẩu </label>
+                    <label className="style-label-setting"> Đặt mật khẩu </label>
                     <div className="panel-checkbox" id="panel-checkbox4">
                         <div className="input link-edit link-edit2">
                             <span className="input-group-text">
