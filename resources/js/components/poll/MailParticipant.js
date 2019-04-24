@@ -51,7 +51,6 @@ export default class MailParticipant extends Component {
     render() {
         const { tags } = this.state;
         let placeholder = 'Nhập mail người tham gia';
-        console.log("Array tags: ", this.state.tags);
         return (
             <React.Fragment>
                 <h2 className="fs-title">Người tham gia</h2>

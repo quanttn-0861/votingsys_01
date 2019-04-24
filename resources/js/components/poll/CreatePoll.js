@@ -31,6 +31,8 @@ export default class CreatePoll extends Component {
             maxVote: '',
             setPassword: '',
             tagsEmail: [],
+            link_user: '',
+            link_admin: '',
         };
         this.validator = new SimpleReactValidator({
             messages: {
@@ -83,13 +85,15 @@ export default class CreatePoll extends Component {
         })
     }
 
-    getSettingForm = (addSettingOne, editSettingOne, disablePoll, maxVote, setPassword) => {
+    getSettingForm = (addSettingOne, editSettingOne, disablePoll, maxVote, setPassword, linkUser, linkAdmin) => {
         this.setState({
             addSetting: addSettingOne,
             editSetting: editSettingOne,
             disablePoll: disablePoll,
             maxVote: maxVote,
             setPassword: setPassword,
+            link_user: linkUser,
+            link_admin: linkAdmin,
         })
     }
 
@@ -123,7 +127,6 @@ export default class CreatePoll extends Component {
         temp.map(function(element) {
             arrEmail.push(element['text']);
         })
-        console.log("arrEmail", arrEmail);
         this.setState({
             tagsEmail: arrEmail
         }, () => {
@@ -149,11 +152,21 @@ export default class CreatePoll extends Component {
             maxVote: this.state.maxVote,
             setPassword: this.state.setPassword,
             tagsEmail: tagsEmail,
+            linkUser: this.state.link_user,
+            linkAdmin: this.state.link_admin,
         }
         axios.post(url, data)
             .then(response => {
                 console.log(response)
-                this.props.history.push('/link-poll')
+                let link_user = this.state.link_user
+                let link_admin = this.state.link_admin
+                this.props.history.push({
+                    pathname: '/link-poll',
+                    state: {
+                        link_user: link_user,
+                        link_admin: link_admin
+                    }
+                })
             })
             .catch(function (error) {
                 console.log(error.response)

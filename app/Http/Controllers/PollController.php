@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Poll;
 use App\Models\Option;
 use App\Models\Setting;
+use App\Models\Link;
 use App\Mail\SendInvitationParticipants;
 use App\Jobs\JobSendInvitationParticipants;
 use Mail;
@@ -99,6 +100,18 @@ class PollController extends Controller
                 $inputSetPassword['value'] = $setPassword;
                 Setting::create($inputSetPassword);
             }
+
+            $linkUser = $request->linkUser;
+            $inputLinkUser['token'] = $linkUser;
+            $inputLinkUser['link_admin'] = config('setting.link.is_user');
+            $inputLinkUser['poll_id'] = $pollId;
+            Link::create($inputLinkUser);
+
+            $linkAdmin = $request->linkAdmin;
+            $inputLinkAdmin['token'] = $linkAdmin;
+            $inputLinkAdmin['link_admin'] = config('setting.link.is_admin');
+            $inputLinkAdmin['poll_id'] = $pollId;
+            Link::create($inputLinkAdmin);
 
             $tagsMail = $request->tagsEmail;
 

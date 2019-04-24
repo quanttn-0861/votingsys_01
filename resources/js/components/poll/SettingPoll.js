@@ -16,6 +16,8 @@ export default class SettingPoll extends Component {
             disablePoll: false,
             maxVote: 0,
             setPassword: 'no_setpassword',
+            link_user: '',
+            link_admin: '',
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -25,26 +27,53 @@ export default class SettingPoll extends Component {
         });
     }
 
+    componentDidMount () {
+        axios.get(window.Laravel.baseUrl + '/link')
+            .then(response => {
+                this.setState({ 
+                    link_user: response.data.link_user, 
+                    link_admin: response.data.link_admin
+                })
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+    }
+
+    getValueSettingForm = () => {
+        this.props.getSettingForm(
+            this.state.addSetting, 
+            this.state.editSetting,
+            this.state.disablePoll,
+            this.state.maxVote,
+            this.state.setPassword,
+            this.state.link_user,
+            this.state.link_admin
+            );
+        this.props.setFieldset4();
+    }
+
     handleSettingForm = () => {
-        if ((this.state.setPassword !== 'no_setpassword') || (this.state.maxVote !== 0)) {
-            if (this.validator.fieldValid('setPassword') && this.validator.fieldValid('maxVote')) {
-                this.props.getSettingForm(this.state.addSetting, 
-                    this.state.editSetting,
-                    this.state.disablePoll,
-                    this.state.maxVote,
-                    this.state.setPassword);
-                this.props.setFieldset4();
+        if (this.state.setPassword !== 'no_setpassword') {
+            if (this.validator.fieldValid('setPassword')) {
+                this.getValueSettingForm();
             } else {
                 this.validator.showMessages();
                 this.forceUpdate();
-            } 
-        } else {
-            this.props.getSettingForm(this.state.addSetting, 
-                this.state.editSetting,
-                this.state.disablePoll,
-                this.state.maxVote,
-                this.state.setPassword);
-            this.props.setFieldset4();
+            }
+        }
+        
+        if (this.state.maxVote !== 0) {
+            if (this.validator.fieldValid('maxVote')) {
+                this.getValueSettingForm();
+            } else {
+                this.validator.showMessages();
+                this.forceUpdate();
+            }
+        }
+
+        if (this.state.setPassword === 'no_setpassword' && this.state.maxVote === 0) {
+            this.getValueSettingForm();
         }
     }
 
