@@ -19,9 +19,10 @@ class RowResultModal extends Component {
         return (
             <React.Fragment>
                 <tr>
-                    {rowResultModal}
                     <td className="table-name" colSpan="2">{participantName}</td>
                     <td className="table-name">{participantEmail}</td>
+                    {rowResultModal}
+
                 </tr>
             </React.Fragment >
         );

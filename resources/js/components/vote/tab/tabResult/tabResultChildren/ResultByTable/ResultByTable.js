@@ -23,9 +23,10 @@ class ResultByTable extends Component {
         const pollId = this.props.pollId;
         const pollOption = this.props.pollOption;
         var participantVote = this.props.participantVote,
+            participantVoteModal = this.props.participantVote,
             searchString = this.state.searchString.trim().toLowerCase();
         if (searchString.length > 0) {
-            participantVote = participantVote.filter(function (i) {
+            participantVoteModal = participantVoteModal.filter(function (i) {
                 return i.participant.name.toLowerCase().match(searchString);
             });
         }
@@ -46,7 +47,7 @@ class ResultByTable extends Component {
                 <th className="table-optionName">{option.name}</th>
             </React.Fragment>
         });
-        const rowResultModal = participantVote.map(function (participantVote) {
+        const rowResultModal = participantVoteModal.map(function (participantVote) {
             if (participantVote.option.poll_id === pollId) {
                 return <RowResultModal key={participantVote.id} participantVote={participantVote} pollOption={pollOption} />
             }
@@ -74,15 +75,15 @@ class ResultByTable extends Component {
                                     <table className="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr className="table-head">
-                                                {countByOption}
                                                 <th colSpan="3" style={{ "textAlign": "center" }}> {countParticipantVote} Người bầu chọn</th>
+                                                {countByOption}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr className="table-head">
-                                                {nameOption}
                                                 <td className="table-name bold" colSpan="2">Tên</td>
                                                 <td className="table-name bold">Email</td>
+                                                {nameOption}
                                             </tr>
                                             {rowResultModal}
                                         </tbody>

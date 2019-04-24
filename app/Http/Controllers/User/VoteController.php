@@ -24,8 +24,12 @@ class VoteController extends Controller
         $pollInfo = Poll::where('id', $pollId)->first();
 
         $participantVote = ParticipantVote::with([
-            'participant',
-            'option',
+            'participant' => function ($query) {
+                $query->with(['user']);
+            },
+            'option' => function ($query) {
+                $query->orderBy('id', 'DESC');
+            },
         ])->get();
 
         $pollOption = Option::where('poll_id', $pollId)->get();

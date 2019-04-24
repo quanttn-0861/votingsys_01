@@ -40,8 +40,6 @@ class RowComment extends Component {
                             <div className="comment-head">
                                 <h6 className="comment-name"><a href="#">{comment.name}</a></h6>
                                 <span>{diff_time}</span>
-                                <i className="fa fa-reply"></i>
-                                <i className="fa fa-heart"></i>
                                 <i className="fa fa-trash"></i>
                             </div>
                             <div className="comment-content">

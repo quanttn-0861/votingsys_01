@@ -5,6 +5,7 @@
 .tabs {
     min-width: 100%;
     padding: 40px;
+    padding-bottom: 55px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
@@ -332,7 +333,7 @@
     margin-left: 2px;
 }
 
-.tab-content div {
+.tab-content div:not(.avatar-participant, #modalMoreParticipant) {
     margin: 10px;
 }
 
@@ -344,6 +345,12 @@
 
 .radio:not(.radio-list) {
     margin: 20px 0 !important;
+    text-align: right;
+    min-height: 25px;
+}
+
+.radio-span {
+    float: left;
 }
 
 .radio-list {
@@ -388,8 +395,8 @@
 }
 
 .radio-img {
-    width: 3%;
-    float: right;
+    max-width: 30px;
+    min-width: 30px;
 }
 
 .switch-tab {
@@ -404,9 +411,10 @@
 .validation {
     display: block;
     color: #DF0101;
+    margin-top: 5px;
 }
 
-.tab-horizon div {
+.tab-horizon-div {
     border-bottom: 1px solid #cccccc;
 }
 
@@ -448,10 +456,6 @@
     display: inline;
 }
 
-/* radio__circle .radio-list {
-    margin: 0;
-} */
-
 .btn.float-right {
     margin: 0 2px;
 }
@@ -470,6 +474,59 @@
 
 .chart {
     margin: 0 20%;
+}
+
+.avatar-participant {
+    display: inline;
+}
+
+.avatar-participant:hover {
+    cursor: pointer;
+}
+
+.more-participant {
+    border-radius: 20px;
+    text-align: center;
+    padding: 6px;
+    background-color: #5bc0de;
+}
+
+.more-participant span {
+    color: #fff;
+}
+
+.modal-on-votetab {
+    min-width: 30% !important;
+}
+
+.more-participant-area {
+    height: 450px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.more-participant-area-div {
+    border-left: 5px solid #fff;
+    height: 14.5%;
+}
+
+.more-participant-area-div:hover {
+    border-left: 5px solid #5bc0de;
+}
+
+.more-participant-area div img {
+    width: 65px;
+    float: left;
+    height: 65px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    border-radius: 5px;
+}
+
+.more-participant-area div div {
+    float: left;
+    padding: 3%;
+    font-weight: normal;
 }
 
 /* ReactCSSTransitionGroup */
@@ -615,6 +672,14 @@
 
 .modal-dialog.modal-lg:not(.model-link) {
     min-width: 85% !important;
+}
+
+.modal-header {
+    min-height: 70px;
+}
+
+.modal-header input {
+    position: absolute;
 }
 
 /* search box  */
@@ -1013,18 +1078,6 @@ input[type=search]:focus {
 
 .btn.float-right:hover:not(.switch-tab-button-active)>i {
     animation: swing ease-in-out 0.5s 1 alternate;
-}
-
-.fa-reply:hover {
-    animation: swing ease-in-out 0.5s 1 alternate;
-    font-size: 20px !important;
-    line-height: 15px;
-}
-
-.fa-heart:hover {
-    animation: swing ease-in-out 0.5s 1 alternate;
-    font-size: 20px !important;
-    line-height: 15px;
 }
 
 .fa-trash:hover {

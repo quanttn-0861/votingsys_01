@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import autoBind from "react-autobind";
-import Validator from '../../../utils/validator'
 import RadioOption from './RadioOption'
+import SimpleReactValidator from 'simple-react-validator';
 
 class FormInputInfo extends Component {
     constructor(props) {
@@ -11,31 +11,15 @@ class FormInputInfo extends Component {
             name: '',
             email: '',
             option: '',
-            errors: {},
             count: 0,
 
         };
-        const rules = [
-            {
-                field: 'name',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Vui lòng nhập tên để bầu chọn poll này',
+        this.validator = new SimpleReactValidator({
+            messages: {
+                required: 'Vui lòng nhập :attribute của bạn !',
+                email: 'Email không đúng định dạng.',
             },
-            {
-                field: 'email',
-                method: 'isEmpty',
-                validWhen: false,
-                message: 'Vui lòng nhập email để bầu chọn poll này',
-            },
-            {
-                field: 'email',
-                method: 'isEmail',
-                validWhen: true,
-                message: 'Vui lòng nhập email hợp lệ',
-            },
-        ];
-        this.validator = new Validator(rules);
+        });
     }
 
     handleInputChange(e) {
@@ -47,15 +31,6 @@ class FormInputInfo extends Component {
             [name]: value,
             [email]: value,
         });
-        this.getMessagErrorsValidate();
-    }
-
-    getMessagErrorsValidate() {
-        this.setState(nextState => {
-            return {
-                errors: this.validator.validate(nextState)
-            }
-        });
     }
 
     handleChangedOption(e) {
@@ -64,18 +39,28 @@ class FormInputInfo extends Component {
         })
     }
     formSubmit() {
-        if (Object.keys(this.state.errors).length === 0) {
+        if (this.validator.allValid()) {
             this.props.handleSubmit(this.state.name, this.state.email, this.state.option)
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
         }
-        this.getMessagErrorsValidate();
+
     }
 
     render() {
-        const { errors } = this.state;
+        const participantVote = this.props.participantVote;
+        const pollId = this.props.pollId;
         const option = this.state.option;
         const handleChangedOption = this.handleChangedOption;
         const radioOption = this.props.pollOption.map(function (pollOption) {
-            return <RadioOption key={pollOption.id} pollOption={pollOption} option={option} handleChangedOption={handleChangedOption} />
+            return <RadioOption
+                key={pollOption.id}
+                pollOption={pollOption}
+                optionId={pollOption.id}
+                pollId={pollId} option={option}
+                participantVote={participantVote}
+                handleChangedOption={handleChangedOption} />
         })
 
         return (
@@ -100,7 +85,8 @@ class FormInputInfo extends Component {
                                 onChange={this.handleInputChange}
                             />
                         </div>
-                        {errors.name && <div className="validation" ><i className="fa fa-exclamation-triangle"></i>{errors.name}</div>}
+                        {<div className="validation">{this.validator.message('tên', this.state.name, 'required')}</div>}
+
                     </div>
                     <div className="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-xs-email-vote email-vote-mobile">
                         <div className="input-group required">
@@ -116,7 +102,7 @@ class FormInputInfo extends Component {
                                 onChange={this.handleInputChange}
                             />
                         </div>
-                        {errors.email && <div className="validation" ><i className="fa fa-exclamation-triangle"></i>{errors.email}</div>}
+                        {<div className="validation">{this.validator.message('email', this.state.email, 'required|email')}</div>}
                     </div>
                     <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-btn-xs-vote btn-vote-mobile">
                         <span className="input-group-btn js-data-validate">
