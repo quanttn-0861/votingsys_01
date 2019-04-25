@@ -10,3 +10,9 @@
     padding: 1% 0px 0px 1%;
     color: red;
 }
+
+.style-errors-mail {
+    color: red;
+    text-align: left;
+    padding-left: 2%;
+}

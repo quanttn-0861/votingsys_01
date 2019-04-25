@@ -481,6 +481,7 @@
 }
 
 .switch-button {
+    padding-left: 20px;
     float: left;
     width: 50%;
 }

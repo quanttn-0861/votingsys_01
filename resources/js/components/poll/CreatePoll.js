@@ -217,12 +217,13 @@ export default class CreatePoll extends Component {
                         </fieldset>
                         <fieldset className={this.state.fieldset === 2 ? "active-block" : "tab-none"}>
                             <h2 className="fs-title">Tùy chọn</h2>
+                            <p>Press <span className="glyphicon glyphicon-plus gs"></span> to add another form option</p>
                             <div className="setting">
                                 <div className="controls">
                                     {
                                         optionItems
                                     }
-                                    <div className="option-choice">
+                                    <div className="option-choice padding-option">
                                         <div className="entry input-group col-xs-12">
                                             <input className="form-control" type="text" name="nameOption" value={this.state.nameOption} onChange={handleInputChange.bind(this)} placeholder="Type something" />
                                             <span className="input-group-btn">
@@ -236,7 +237,6 @@ export default class CreatePoll extends Component {
                                     {checkSameOption > 0 ? <div className="style-error-option">Câu trả lời bị trùng, xin hãy chọn câu trả lời khác</div> : "" }
                                     <br />
                                     <div className="clear"></div>
-                                    <small>Press <span className="glyphicon glyphicon-plus gs"></span> to add another form option</small>
                                 </div>
                             </div>
                             <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.setFieldset1} />

@@ -19,6 +19,7 @@ export default class MailParticipant extends Component {
 
         this.state = {
             tags: [],
+            validEmail: null,
         };
     }
   
@@ -30,7 +31,18 @@ export default class MailParticipant extends Component {
     }
 
     handleAddition = (tag) => {
-        this.setState(state => ({ tags: [...state.tags, tag] }));
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (re.test(tag.text)) {
+            this.setState(state => ({ 
+                    tags: [...state.tags, tag],
+                    validEmail: null, 
+                })
+            );
+        } else {
+            this.setState({
+                validEmail: "Email không đúng định dạng",
+            })
+        }
     }
 
     handleDrag = (tag, currPos, newPos) => {
@@ -65,6 +77,7 @@ export default class MailParticipant extends Component {
                         placeholder={placeholder}
                         delimiters={delimiters} />
                 </div>
+                {this.state.validEmail === null ? "" : <div className="style-errors-mail">{this.state.validEmail}</div>}
                 <input type="button" name="previous" className="previous action-button" value="Previous" onClick={this.props.setFieldset3} />
                 <input type="button" name="submit" className="action-button" value="Submit" onClick={this.handleOnClick} />
             </React.Fragment>

@@ -29,7 +29,7 @@ body {
   border: 0 none;
   border-radius: 3px;
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-  padding: 20px 30px;
+  padding: 0px 0px 20px 0px;
   box-sizing: border-box;
   width: 90%;
   margin: auto;
@@ -49,7 +49,7 @@ body {
   box-sizing: border-box;
   font-family: montserrat;
   color: #2C3E50;
-  font-size: 13px;
+  font-size: 100%;
 }
 
 #msform textarea {
@@ -77,10 +77,14 @@ body {
 /*headings*/
 
 .fs-title {
-  font-size: 16px;
+  font-size: 166%;
   text-transform: uppercase;
-  color: #63a2cb;
-  margin-bottom: 10px;
+  color: #FFF;
+  margin-bottom: 20px;
+  margin-top: 0px;
+  background-color: #67d5bf;
+  padding: 10px 0px;
+  border: 1px solid #67d5bf;
 }
 
 .fs-subtitle {
@@ -198,4 +202,12 @@ body {
   background-repeat: no-repeat;
   background-size: 30px 25px;
   background-position: center;
+}
+
+.padding-option {
+  padding: 0px 20px;
+}
+
+.note-plus {
+  margin-bottom: 10px;
 }

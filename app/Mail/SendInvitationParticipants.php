@@ -11,14 +11,16 @@ class SendInvitationParticipants extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $linkUser;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($linkUser)
     {
-        //
+        $this->linkUser = $linkUser;
     }
 
     /**

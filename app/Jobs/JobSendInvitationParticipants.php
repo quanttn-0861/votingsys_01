@@ -7,7 +7,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-
 use Mail;
 use App\Mail\SendInvitationParticipants;
 use App\Http\Controllers\PollController;
@@ -17,14 +16,16 @@ class JobSendInvitationParticipants implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $email;
+    protected $linkUser;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($email, $linkUser)
     {
         $this->email = $email;
+        $this->linkUser = $linkUser;
     }
 
     /**
@@ -36,7 +37,7 @@ class JobSendInvitationParticipants implements ShouldQueue
     {
         echo 'Start send email';
 
-        Mail::to($this->email)->send(new SendInvitationParticipants());
+        Mail::to($this->email)->send(new SendInvitationParticipants($this->linkUser));
 
         echo 'End send mail';
     }

@@ -38,12 +38,12 @@ class VoteController extends Controller
         ])->get();
         
         return response()->json([
-                'pollInfo' => $pollInfo,
-                'pollOption' => $pollOption,
-                'participantVote' => $participantVote,
-                'pollId' => $pollId,
-                'comments' => $comments,
-            ]);
+            'pollInfo' => $pollInfo,
+            'pollOption' => $pollOption,
+            'participantVote' => $participantVote,
+            'pollId' => $pollId,
+            'comments' => $comments,
+        ]);
     }
 
     /**

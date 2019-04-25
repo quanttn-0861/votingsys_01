@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { handleInputChange } from '../utils/InputHandler';
-import { handleOptionChange } from '../utils/HandleOptionChange';
 import SimpleReactValidator from 'simple-react-validator';
 
 export default class SettingPoll extends Component {
@@ -18,6 +17,8 @@ export default class SettingPoll extends Component {
             setPassword: 'no_setpassword',
             link_user: '',
             link_admin: '',
+            btn_editLink: 0,
+            tmpLink: '',
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -32,7 +33,8 @@ export default class SettingPoll extends Component {
             .then(response => {
                 this.setState({ 
                     link_user: response.data.link_user, 
-                    link_admin: response.data.link_admin
+                    link_admin: response.data.link_admin,
+                    tmpLink: response.data.link_user,
                 })
         })
         .catch(function (error) {
@@ -41,16 +43,29 @@ export default class SettingPoll extends Component {
     }
 
     getValueSettingForm = () => {
-        this.props.getSettingForm(
-            this.state.addSetting, 
-            this.state.editSetting,
-            this.state.disablePoll,
-            this.state.maxVote,
-            this.state.setPassword,
-            this.state.link_user,
-            this.state.link_admin
-            );
-        this.props.setFieldset4();
+        if (this.state.btn_editLink === 0) {
+            this.props.getSettingForm(
+                this.state.addSetting, 
+                this.state.editSetting,
+                this.state.disablePoll,
+                this.state.maxVote,
+                this.state.setPassword,
+                this.state.tmpLink,
+                this.state.link_admin
+                );
+            this.props.setFieldset4();
+        } else {
+            this.props.getSettingForm(
+                this.state.addSetting, 
+                this.state.editSetting,
+                this.state.disablePoll,
+                this.state.maxVote,
+                this.state.setPassword,
+                this.state.link_user,
+                this.state.link_admin
+                );
+            this.props.setFieldset4();
+        }
     }
 
     handleSettingForm = () => {
@@ -72,7 +87,16 @@ export default class SettingPoll extends Component {
             }
         }
 
-        if (this.state.setPassword === 'no_setpassword' && this.state.maxVote === 0) {
+        if (this.state.btn_editLink !== 0) {
+            if (this.validator.fieldValid('link_user')) {
+                this.getValueSettingForm();
+            } else {
+                this.validator.showMessages();
+                this.forceUpdate();
+            }
+        }
+
+        if (this.state.setPassword === 'no_setpassword' && this.state.maxVote === 0 && this.state.btn_editLink === 0) {
             this.getValueSettingForm();
         }
     }
@@ -115,6 +139,19 @@ export default class SettingPoll extends Component {
         }
     }
 
+    handleClickLinkEdit = () => {
+        if (this.state.btn_editLink === 0) {
+            this.setState({
+                btn_editLink: this.state.link_user
+            })
+        } else {
+            this.setState({
+                btn_editLink: 0
+            })
+        }
+        $("#panel-checkbox5").slideToggle("normal");        
+    }
+
     handleClickMaxVote = () => {
         if (this.state.maxVote === 0) {
             this.setState({
@@ -146,6 +183,7 @@ export default class SettingPoll extends Component {
             <React.Fragment>
                 <h2 className="fs-title">Cài đặt</h2>
                 <div className="switch-button">
+
                     <div className="style-checkbox style-button-toggle" onClick={this.handleClickAddSetting}>
                         <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.addSetting === "no_addSetting" ? "" : "true"} />
                     </div>
@@ -157,7 +195,7 @@ export default class SettingPoll extends Component {
                                 name="addSetting"
                                 value="is_wsm"
                                 defaultChecked={this.state.addSetting === "is_wsm" ? "" : "true"}
-                                onChange={handleOptionChange.bind(this)}
+                                onChange={handleInputChange.bind(this)}
                                 className="form-check-input"
                             />
                             <label className="form-check-label">
@@ -170,7 +208,7 @@ export default class SettingPoll extends Component {
                                 name="addSetting"
                                 value="required_name"
                                 defaultChecked={this.state.addSetting === "required_name"}
-                                onChange={handleOptionChange.bind(this)}
+                                onChange={handleInputChange.bind(this)}
                                 className="form-check-input"
                             />
                             <label className="form-check-label">
@@ -192,7 +230,7 @@ export default class SettingPoll extends Component {
                                 name="editSetting"
                                 value="invisible_result"
                                 checked={this.state.editSetting === "invisible_result"}
-                                onChange={handleOptionChange.bind(this)}
+                                onChange={handleInputChange.bind(this)}
                                 className="form-check-input"
                             />
                             <label className="form-check-label">
@@ -205,7 +243,7 @@ export default class SettingPoll extends Component {
                                 name="editSetting"
                                 value="display_number_vote"
                                 checked={this.state.editSetting === "display_number_vote"}
-                                onChange={handleOptionChange.bind(this)}
+                                onChange={handleInputChange.bind(this)}
                                 className="form-check-input"
                             />
                             <label className="form-check-label">
@@ -213,6 +251,29 @@ export default class SettingPoll extends Component {
                           </label>
                         </div>
                     </div>
+
+                    <div className="clear"></div>
+
+                    <div className="style-checkbox style-button-toggle" onClick={this.handleClickLinkEdit}>
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="info" defaultChecked={this.state.btn_editLink === 0 ? "" : "true"} />
+                    </div>
+                    <label className="style-label-setting"> Chỉnh sửa link bầu chọn </label>
+                    <div className="panel-checkbox" id="panel-checkbox5">
+                        <div className="input link-edit">
+                            <span className="input-group-text">
+                                <i className="fa fa-list-ol" aria-hidden="true"></i>
+                            </span>
+                            <input type="text"
+                                name="link_user"
+                                className="form-control input-inf"
+                                aria-describedby="basic-addon1"
+                                value={this.state.link_user}
+                                onChange={handleInputChange.bind(this)} 
+                            />
+                        {<div className="validation" style={{ display: 'block' }}>{this.validator.message('link_user', this.state.link_user, 'required|min:8')}</div>}
+                        </div>
+                    </div>
+
                     <div className="clear"></div>
 
                     <div className="style-checkbox style-button-toggle" onClick={this.handleDisablePoll}>
@@ -236,7 +297,7 @@ export default class SettingPoll extends Component {
                                 className="form-control input-inf"
                                 aria-describedby="basic-addon1"
                                 value={this.state.maxVote}
-                                onChange={handleOptionChange.bind(this)} 
+                                onChange={handleInputChange.bind(this)} 
                             />
                         {<div className="validation" style={{ display: 'block' }}>{this.validator.message('maxVote', this.state.maxVote, 'required|max:4')}</div>}
                         </div>
@@ -259,7 +320,7 @@ export default class SettingPoll extends Component {
                                 id="password-field" 
                                 aria-describedby="basic-addon1"
                                 value={this.state.setPassword}
-                                onChange={handleOptionChange.bind(this)}
+                                onChange={handleInputChange.bind(this)}
                             />
                         <span className="input-group-text key-span toggle-password fa fa-eye" toggle="#password-field"></span>
                         {<div className="validation" style={{ display: 'block' }}>{this.validator.message('setPassword', this.state.setPassword, 'required')}</div>}

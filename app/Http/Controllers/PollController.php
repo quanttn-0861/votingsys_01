@@ -117,7 +117,7 @@ class PollController extends Controller
 
             if (is_array($tagsMail)) {
                 foreach ($tagsMail as $value) {
-                    dispatch(new JobSendInvitationParticipants($value));
+                    dispatch(new JobSendInvitationParticipants($value, $linkUser));
                 }
             }
 

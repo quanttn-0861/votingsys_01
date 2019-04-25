@@ -24,7 +24,7 @@ export default class OptionPoll extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="option-choice">
+                <div className="option-choice padding-option">
                     <div className="entry input-group col-xs-12">
                         <input className="form-control" type="text" name="name" value={this.props.option} onChange={handleInputChange.bind(this)} placeholder="Type something" />
                         <span className="input-group-btn">
