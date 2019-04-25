@@ -63,6 +63,7 @@ class VoteApp extends Component {
                     <TabVote
                         tab={this.state.tab}
                         tabChildren={this.state.tabChildren}
+                        handleClickTabResult={this.handleClickTabResult}
                         handleClickTabChildren1={this.handleClickTabChildren1}
                         handleClickTabChildren2={this.handleClickTabChildren2}
                     />

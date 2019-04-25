@@ -32,6 +32,22 @@ class TabVote extends Component {
                 console.log(error)
             })
     }
+    loadData() {
+        axios.get(window.Laravel.baseUrl + '/api/vote')
+            .then(response => {
+                const { pollInfo, pollOption, participantVote, pollId, comments } = response.data;
+                this.setState({
+                    pollInfo: pollInfo,
+                    pollOption: pollOption,
+                    participantVote: participantVote,
+                    pollId: pollId,
+                    comments: comments,
+                })
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
     handleClickTabChildren1() {
         this.props.handleClickTabChildren1()
     }
@@ -46,8 +62,8 @@ class TabVote extends Component {
         axios.post(url, data)
             .then(response => {
                 console.log(response)
-                alert('Vote Success!')
-                // history.push('/link-poll')
+                this.loadData()
+                this.props.handleClickTabResult()
             })
             .catch(function (error) {
                 console.log(error.response)
