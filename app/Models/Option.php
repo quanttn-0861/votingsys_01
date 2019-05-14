@@ -122,7 +122,7 @@ class Option extends Model
 
     public function paragraphTimes()
     {
-        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument;
 
         $dom->loadHTML($this->description);
 
