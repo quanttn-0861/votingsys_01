@@ -12,7 +12,7 @@
             @else
                 @foreach (array_slice($listVoter[$option->id], 0, config('settings.limit_voters_option')) as $voter)
                     <div class="voter-avatar voter-avatar-mobile" data-toggle="tooltip"
-                        data-placement="{{ $loop->parent->last ? 'top' : 'bottom'}}"
+                        data-placement="{{ $loop->last ? 'top' : 'bottom'}}"
                         title="{{ $voter['name'] }}">
                         <img src="{{ $voter['avatar'] }}">
                     </div>
